@@ -124,3 +124,5 @@ weights = {
     "Personal Interest": 0.2,
     "Work-Life Balance": 0.1
 }
+
+These values are illustrative examples. In the actual implementation, weights are dynamically provided by the user.
