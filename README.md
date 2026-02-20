@@ -14,28 +14,20 @@ The **Career Decision Companion System** models career selection as a structured
 
 ### Career Options
 
-| Career | Description |
-|---|---|
-| Web Development | Frontend/backend web apps and services |
-| Data Science | Data analysis, modeling, and statistical insights |
-| AI/ML Engineering | Building and deploying machine learning systems |
-| Cybersecurity | Protecting systems, networks, and data |
-| Cloud / DevOps | Infrastructure, CI/CD pipelines, and cloud platforms |
+The system evaluates five career paths — **Web Development**, **Data Science**, **AI/ML Engineering**, **Cybersecurity**, and **Cloud/DevOps** — each scored across six criteria: Salary Potential, Job Demand, Learning Curve Difficulty, Personal Interest, Work-Life Balance, and Future Growth. Every criterion is rated on a scale of **1–10**.
 
 ---
 
 ### Evaluation Criteria
 
-Each career is scored **1–10** across the following dimensions:
-
-| Criterion | What It Measures |
-|---|---|
-| Salary Potential | Expected compensation levels |
-| Job Demand | Current and projected hiring activity |
-| Learning Curve Difficulty | Effort required to reach proficiency |
-| Personal Interest | Subjective engagement and passion |
-| Work-Life Balance | Typical hours, flexibility, and stress |
-| Future Growth | Long-term career trajectory and relevance |
+| Criterion | What It Measures | Scale |
+|---|---|---|
+| Salary Potential | Expected compensation levels | 1–10 |
+| Job Demand | Current and projected hiring activity | 1–10 |
+| Learning Curve Difficulty | Effort required to reach proficiency | 1–10 |
+| Personal Interest | Subjective engagement and passion | 1–10 |
+| Work-Life Balance | Typical hours, flexibility, and stress | 1–10 |
+| Future Growth | Long-term career trajectory and relevance | 1–10 |
 
 ---
 
@@ -71,7 +63,8 @@ weights = {
     "Job Demand":                0.25,
     "Learning Curve Difficulty": 0.15,
     "Personal Interest":         0.20,
-    "Work-Life Balance":         0.10
+    "Work-Life Balance":         0.10,
+    "Future Growth":             0.00  # dynamically computed from user input
 }
 ```
 
@@ -115,7 +108,7 @@ weights = {
 
 ### System Overview
 
-The system is implemented as a full-stack web application. To run it locally:
+The system is implemented as a full-stack web application built with **React + Vite** on the frontend and **FastAPI (Python)** on the backend, with a custom Python decision engine handling all weighted scoring and ranking. To run it locally:
 
 ```bash
 # Backend (FastAPI)
@@ -128,13 +121,7 @@ cd frontend && npm install && npm run dev
 # App at http://localhost:5173
 ```
 
-| Layer | Technology | Role |
-|---|---|---|
-| Frontend | React + Vite | Slider inputs, results display |
-| Backend | FastAPI (Python) | REST API, weight normalization |
-| Decision Engine | Custom Python module | Weighted scoring and ranking |
-
-The full stack consists of four components: **Frontend (React)** collects user preferences through slider-based inputs and displays ranked results. **Backend (FastAPI)** exposes a REST API for evaluation, normalizes importance values, and delegates computation to the decision engine. The **Decision Engine** performs deterministic weighted aggregation and produces ranked output. The **Domain Configuration Layer** defines career options, evaluation criteria, and stores default performance scores. The architecture ensures separation of concerns between presentation, computation, and domain configuration.
+The stack is divided into four components: **Frontend (React)** collects user preferences through slider-based inputs and displays ranked results. **Backend (FastAPI)** exposes a REST API, normalizes importance values, and delegates computation to the decision engine. The **Decision Engine** performs deterministic weighted aggregation and produces ranked output. The **Domain Configuration Layer** defines career options, evaluation criteria, and stores default performance scores. The architecture ensures clean separation of concerns between presentation, computation, and domain configuration.
 
 ---
 
