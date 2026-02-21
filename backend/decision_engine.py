@@ -1,49 +1,60 @@
+from domain_config import SECTORS
 from scorer import calculate_weighted_scores, rank_careers
 
-DEFAULT_SCORES = {
-    "Web Development": {
-        "Salary Potential": 7,
-        "Job Demand": 8,
-        "Learning Curve Difficulty": 8,
-        "Personal Interest": 9,
-        "Work-Life Balance": 7
-    },
-    "Data Science": {
-        "Salary Potential": 9,
-        "Job Demand": 8,
-        "Learning Curve Difficulty": 6,
-        "Personal Interest": 7,
-        "Work-Life Balance": 6
-    },
-    "AI/ML Engineering": {
-        "Salary Potential": 9,
-        "Job Demand": 7,
-        "Learning Curve Difficulty": 5,
-        "Personal Interest": 6,
-        "Work-Life Balance": 6
-    },
-    "Cybersecurity": {
-        "Salary Potential": 8,
-        "Job Demand": 9,
-        "Learning Curve Difficulty": 5,
-        "Personal Interest": 6,
-        "Work-Life Balance": 8
-    },
-    "Cloud/DevOps": {
-        "Salary Potential": 8,
-        "Job Demand": 8,
-        "Learning Curve Difficulty": 6,
-        "Personal Interest": 7,
-        "Work-Life Balance": 7
-    }
-}
 
-def normalize_weights(raw_weights):
+def normalize_weights(raw_weights: dict) -> dict:
+    """
+    Converts user-provided importance values into proportional weights.
+    """
     total = sum(raw_weights.values())
-    return {k: v / total for k, v in raw_weights.items()}
 
-def evaluate(raw_weights):
-    weights = normalize_weights(raw_weights)
-    final_scores = calculate_weighted_scores(weights, DEFAULT_SCORES)
+    if total == 0:
+        raise ValueError("Total importance cannot be zero.")
+
+    return {criterion: value / total for criterion, value in raw_weights.items()}
+
+
+def validate_weights(sector_name: str, raw_weights: dict):
+    """
+    Ensures that:
+    - Sector exists
+    - All required criteria are present
+    - No extra criteria are included
+    """
+    if sector_name not in SECTORS:
+        raise ValueError("Invalid sector selected.")
+
+    expected_criteria = set(SECTORS[sector_name]["criteria"])
+    provided_criteria = set(raw_weights.keys())
+
+    if expected_criteria != provided_criteria:
+        raise ValueError("Mismatch between required criteria and provided weights.")
+
+
+def evaluate(sector_name: str, raw_weights: dict):
+    """
+    Main evaluation function.
+
+    Steps:
+    1. Validate sector and weights
+    2. Normalize importance values
+    3. Calculate weighted scores
+    4. Rank careers
+    """
+
+    # Validate sector + weights
+    validate_weights(sector_name, raw_weights)
+
+    # Normalize user importance ratings
+    normalized_weights = normalize_weights(raw_weights)
+
+    # Get career data for selected sector
+    careers = SECTORS[sector_name]["careers"]
+
+    # Calculate final weighted scores
+    final_scores = calculate_weighted_scores(normalized_weights, careers)
+
+    # Rank careers
     ranked = rank_careers(final_scores)
+
     return ranked

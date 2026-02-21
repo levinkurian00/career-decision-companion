@@ -1,94 +1,131 @@
-# Research Log
+# RESEARCH_LOG.md
 
-This document records research topics and AI assistance used during development.
+## Overview
 
----
-
-## Conceptual Research
-
-**Researched:**
-
-- Multi-criteria decision-making (MCDM)
-- Weighted scoring models
-- Deterministic vs black-box systems
-- Trade-off evaluation principles
-
-**Decision taken:**
-
-- Use deterministic weighted aggregation instead of AI-based ranking.
-
-**Reason:**
-
-- Transparency and explainability were prioritized over prediction.
+This document records the AI prompts used during development of the Career Decision Companion System. Only prompts directly related to the implemented system are included. AI was used as a development assistant — all decisions were reviewed and validated before implementation.
 
 ---
 
-## Backend Research
+## Day 1 – Deciding the Approach
 
-**Researched:**
+**Prompt 1**
+> "how do i build a career decision system that helps users pick the right path"
 
-- FastAPI framework
-- REST API design principles
-- CORS handling
-- JSON request/response modeling
-
-**AI was used to:**
-
-- Review API structure
-- Validate normalization implementation
-- Improve modular design
-
-Core decision logic was implemented and verified independently.
+Taken: Modelled as multi-criteria decision making instead of random suggestions.
 
 ---
 
-## Frontend Research
+**Prompt 2**
+> "is it better to use ai ranking or just weighted scoring for this kind of thing"
 
-**Researched:**
-
-- React `useState` for state management
-- Fetch API for HTTP communication
-- Handling JSON responses
-- Slider input handling
-
-**AI was used to:**
-
-- Review component structure
-- Improve API integration clarity
-- Suggest UI simplifications
-
-AI was not used to generate ranking outcomes.
+Taken: Chose deterministic weighted scoring — explainable and fully traceable.
 
 ---
 
-## Design Research
+**Prompt 3**
+> "how does weighted scoring actually work, explain it simply"
 
-**Researched:**
-
-- Modular architecture patterns
-- Separation of domain configuration from computation
-- Extensibility principles
-
-**Key architectural decisions:**
-
-- Keep the decision engine generic.
-- Treat career data and criteria as configuration layers.
+Taken: Confirmed mathematical foundation. Used weighted aggregation:
+`Final Score = Σ(weight × score)`
 
 ---
 
-## AI Usage Transparency
+**Prompt 4**
+> "do the weights need to add up to 1 or can i just normalize them automatically"
 
-**AI tools were used for:**
+Taken: Auto-normalize using `weight_i = importance_i / Σ importance`. Removed manual sum validation to reduce friction.
 
-- Structuring documentation
-- Reviewing architectural clarity
-- Validating mathematical reasoning
-- Improving code readability
+---
 
-**AI was not used to:**
+## Day 2 – Core Logic Implementation
 
-- Generate final decision rankings
-- Replace deterministic logic
-- Introduce opaque decision-making components
+**Prompt 5**
+> "how should i split up the scoring logic in python so its not all in one file"
 
-The core algorithmic decisions were intentionally **deterministic**.
+Taken: Separated normalization, score calculation, and ranking into `decision_engine.py` and `scorer.py`.
+
+---
+
+**Prompt 6**
+> "what is the right way to validate the weights coming in from the frontend"
+
+Taken: Added validation to check sector exists, required criteria match, and avoid frontend mismatch errors.
+
+---
+
+**Prompt 7**
+> "what happens to my normalization if all the weights are 0"
+
+Taken: Added divide-by-zero check before normalizing.
+
+---
+
+## Day 3 – Converting to Backend API
+
+**Prompt 8**
+> "how do i turn my python script into a fastapi app"
+
+Accepted: Basic FastAPI app structure.
+Improved: Added Pydantic request model, error handling, CORS middleware, and clean route separation.
+
+---
+
+**Prompt 9**
+> "what endpoints do i need so the frontend can load data dynamically"
+
+Taken: Created `/sectors`, `/criteria/{sector}`, and `/evaluate` endpoints.
+
+---
+
+**Prompt 10**
+> "how do i keep the config separate from the actual logic in fastapi"
+
+Taken: Created `domain_config.py` for sector data. Kept scoring engine generic and sector-independent.
+
+---
+
+## Day 4 – Multi-Sector Extension
+
+**Prompt 11**
+> "how can i add more career sectors without changing the scoring logic"
+
+Taken: Used structured `SECTORS` dictionary. Decision engine remains fully independent from sector data.
+
+---
+
+**Prompt 12**
+> "how do i reload the criteria sliders when the user picks a different sector in react"
+
+Taken: Used `useEffect` with `/sectors` and `/criteria` endpoints. Frontend updates automatically on sector change.
+
+---
+
+## Day 5 – Frontend Integration
+
+**Prompt 13**
+> "how do i send the selected sector and weights to my backend using fetch"
+
+Taken: Structured JSON body as `{ sector, weights }`.
+
+---
+
+**Prompt 14**
+> "how do i handle sliders in react when the list of criteria keeps changing"
+
+Taken: Used `useState` object mapping criteria to value.
+
+---
+
+## AI Usage Summary
+
+**AI was used for:** structuring the backend, validating normalization logic, modular architecture design, dynamic API design, and frontend fetch integration.
+
+**AI was NOT used for:** generating ranking outputs, black-box recommendations, or making architectural decisions without review.
+
+All suggestions were tested and validated before final integration.
+
+---
+
+## Reflection
+
+AI acted as a development assistant. The deterministic logic, architecture separation, and all final design decisions were independently reviewed and refined before implementation.

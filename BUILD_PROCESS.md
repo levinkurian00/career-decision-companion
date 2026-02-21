@@ -33,32 +33,49 @@ The system moved from conceptual framing to a formalized mathematical model.
 
 ---
 
-## Day 3 – CLI Prototype
+Day 3 – Converting to Backend API
 
-**Focus:** Verifying algorithm correctness.
+Focus: Transition from CLI logic to REST-based architecture.
 
-- Implemented scoring logic in Python.
-- Built input handling and validation modules.
-- Tested dynamic ranking behavior with varying inputs.
-- Verified normalization behavior and deterministic output.
+Converted Python scoring logic into FastAPI backend.
 
-This stage validated the correctness of the core decision engine.
+Designed structured request model using Pydantic.
 
----
+Created /evaluate endpoint to process sector + weights.
 
-## Day 4 – Backend Refactoring
+Implemented error handling for invalid input.
 
-**Focus:** Separation of concerns.
+Enabled CORS middleware for frontend communication.
 
-- Refactored CLI logic into a reusable decision engine module.
-- Introduced FastAPI backend.
-- Implemented `/evaluate` endpoint.
-- Enabled CORS for frontend communication.
-- Tested functionality using Swagger UI.
+Tested endpoints using Swagger UI.
 
-The system transitioned from a local script to an API-based architecture.
+This stage shifted the system from a local script to an API-driven architecture with clear separation between presentation and computation.
 
----
+Day 4 – Multi-Sector Extension
+
+Focus: Improving extensibility and scalability.
+
+Introduced domain_config.py to separate domain data from logic.
+
+Structured sector-based configuration:
+
+Sector name
+
+Criteria list
+
+Career performance profiles
+
+Refactored decision engine to accept sector dynamically.
+
+Added new endpoints:
+
+/sectors
+
+/criteria/{sector}
+
+Ensured scoring engine remained domain-independent.
+
+This stage transformed the system from single-sector (Technology only) to a scalable, configuration-driven decision framework.
 
 ## Day 5 – Frontend Integration
 
