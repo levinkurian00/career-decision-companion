@@ -140,3 +140,19 @@ The system internally stores structured data using dictionary-based models. Weig
 ---
 
 *Built to help engineers make smarter career decisions — one weighted score at a time.*
+
+### Explanation Engine(Day 6)
+
+* To improve transparency, the system includes a deterministic explanation module.
+* Instead of returning only ranked scores, the system:
+* Computes weighted contribution per criterion for each career.
+* Identifies the top contributing criteria for the highest-ranked career.
+* Generates a structured explanation highlighting why that career ranked highest.
+
+This ensures:
+
+-> Full traceability from user input to final output.
+-> No black-box reasoning.
+-> Clear alignment between user priorities and final recommendation.
+
+The explanation is mathematically derived from contribution values rather than generated using AI models.

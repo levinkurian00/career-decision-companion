@@ -6,6 +6,7 @@ function App() {
   const [criteria, setCriteria] = useState([]);
   const [weights, setWeights] = useState({});
   const [ranking, setRanking] = useState([]);
+  const [explanation, setExplanation] = useState("");
 
   // Fetch sectors on load
   useEffect(() => {
@@ -53,6 +54,7 @@ function App() {
 
     const data = await response.json();
     setRanking(data.ranking);
+    setExplanation(data.explanation);
   };
 
   return (
@@ -106,7 +108,14 @@ function App() {
           ))}
         </>
       )}
+      {explanation && (
+  <>
+    <h3 style={{ marginTop: "30px" }}>Why This Result?</h3>
+    <p>{explanation}</p>
+  </>
+)}
     </div>
+    
   );
 }
 

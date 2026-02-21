@@ -100,3 +100,19 @@ The system evolved through clear development phases:
 - Full-stack integration
 
 Throughout all iterations, the decision engine remained **deterministic**, **explainable**, and **modular**.
+
+### Day 6 – Explanation Engine Implementation
+
+Focus: Improving interpretability and decision transparency.
+
+Introduced per-criterion contribution tracking in scoring engine.
+
+Modified scoring function to store weighted contribution per criterion.
+
+Implemented explanation generator based on top contributing criteria.
+
+Updated /evaluate endpoint to return both ranking and explanation.
+
+Integrated explanation section in frontend UI.
+
+This stage enhanced system transparency by making ranking decisions traceable to specific weighted factors instead of just returning numeric results.

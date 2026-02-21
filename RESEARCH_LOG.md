@@ -129,3 +129,43 @@ All suggestions were tested and validated before final integration.
 ## Reflection
 
 AI acted as a development assistant. The deterministic logic, architecture separation, and all final design decisions were independently reviewed and refined before implementation.
+
+-------------------------------------------------------------------------------------
+### Day 6 – Explanation Engine
+### Prompt 15
+how to generate explanation based on weighted scoring result
+
+Why I asked:
+To avoid returning only numeric ranking and improve interpretability.
+
+Decision:
+Compute contribution per criterion and identify top contributing factors.
+
+### External Reference 1 (Google)
+
+Referred the career guidance website ⇒ mindler (mindler.com)
+
+Why referred:
+To understand how structured career guidance platforms categorize domains, define evaluation factors, and present career clusters.
+
+What I used from it:
+Observed how careers are grouped into sectors and how multiple factors influence suitability instead of single-metric ranking.
+
+No scoring logic or content was copied. It was used only for conceptual structuring.
+
+### Prompt 16
+  Lets implement an Explanation Engine. Is it possible to use an llm via the groq API to generate different feedback based on the results? If using an llm doesn't actually improve the quality or just makes the process slower, then I'd rather build 'Option A' without an llm.”
+
+  Why I asked:
+  To evaluate whether adding LLM improves system.
+
+  Decision:
+  Rejected LLM-based explanation because:
+  Adds non-deterministic behavior
+  Reduces traceability
+  Introduces external dependency
+  Does not improve core logic
+
+  Chose deterministic explanation instead.
+
+  

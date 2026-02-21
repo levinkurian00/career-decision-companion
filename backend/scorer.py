@@ -1,16 +1,28 @@
-def calculate_weighted_scores(weights, scores):
-    final_scores = {}
+def calculate_weighted_scores(weights, careers):
+    results = {}
 
-    for career, criteria_scores in scores.items():
+    for career_name, scores in careers.items():
         total_score = 0
-        for criterion, score in criteria_scores.items():
-            weight = weights.get(criterion, 0)
-            total_score += weight * score
+        contributions = {}
 
-        final_scores[career] = round(total_score, 2)
+        for criterion, weight in weights.items():
+            contribution = weight * scores[criterion]
+            contributions[criterion] = contribution
+            total_score += contribution
 
-    return final_scores
+        results[career_name] = {
+            "total_score": total_score,
+            "contributions": contributions
+        }
+
+    return results
 
 
 def rank_careers(final_scores):
-    return sorted(final_scores.items(), key=lambda x: x[1], reverse=True)
+    ranked = sorted(
+        final_scores.items(),
+        key=lambda x: x[1]["total_score"],
+        reverse=True
+    )
+
+    return ranked

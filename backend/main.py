@@ -69,7 +69,7 @@ def get_criteria(sector_name: str):
 def evaluate_career(request: EvaluationRequest):
     try:
         result = evaluate(request.sector, request.weights)
-        return {"ranking": result}
+        return result
 
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

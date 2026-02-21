@@ -31,30 +31,48 @@ def validate_weights(sector_name: str, raw_weights: dict):
         raise ValueError("Mismatch between required criteria and provided weights.")
 
 
-def evaluate(sector_name: str, raw_weights: dict):
-    """
-    Main evaluation function.
+def generate_explanation(top_career_name, career_data, weights):
+    contributions = career_data["contributions"]
 
-    Steps:
-    1. Validate sector and weights
-    2. Normalize importance values
-    3. Calculate weighted scores
-    4. Rank careers
-    """
+    # Sort criteria by contribution
+    sorted_criteria = sorted(
+        contributions.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )
 
-    # Validate sector + weights
+    top_criteria = sorted_criteria[:2]
+
+    explanation = f"{top_career_name} ranked highest mainly because of strong performance in "
+
+    explanation += " and ".join([criterion for criterion, _ in top_criteria])
+    explanation += " based on your importance preferences."
+
+    return explanation
+
+
+def evaluate(sector_name, raw_weights):
     validate_weights(sector_name, raw_weights)
 
-    # Normalize user importance ratings
     normalized_weights = normalize_weights(raw_weights)
-
-    # Get career data for selected sector
     careers = SECTORS[sector_name]["careers"]
 
-    # Calculate final weighted scores
     final_scores = calculate_weighted_scores(normalized_weights, careers)
-
-    # Rank careers
     ranked = rank_careers(final_scores)
 
-    return ranked
+    top_career_name = ranked[0][0]
+    top_career_data = ranked[0][1]
+
+    explanation = generate_explanation(
+        top_career_name,
+        top_career_data,
+        normalized_weights
+    )
+
+    return {
+        "ranking": [
+            (career, data["total_score"])
+            for career, data in ranked
+        ],
+        "explanation": explanation
+    }
