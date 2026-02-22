@@ -156,3 +156,15 @@ This ensures:
 -> Clear alignment between user priorities and final recommendation.
 
 The explanation is mathematically derived from contribution values rather than generated using AI models.
+
+### Market Vacancy (India) --> Day 7
+
+To improve real-world applicability, the system incorporates a Market Vacancy (India) criterion within each sector.
+
+This score:
+
+* Represents approximate relative job availability trends in India.
+* Is modeled as a structured domain factor.
+* Is not derived from live scraping or external APIs.
+* Enhances realism by integrating supply-side dynamics.
+* Because the decision engine is generic, adding this criterion required no changes to scoring logic — demonstrating architectural scalability.

@@ -116,3 +116,16 @@ Updated /evaluate endpoint to return both ranking and explanation.
 Integrated explanation section in frontend UI.
 
 This stage enhanced system transparency by making ranking decisions traceable to specific weighted factors instead of just returning numeric results.
+
+### Day 7 – Market Vacancy Integration
+
+Focus: Enhancing real-world decision relevance.
+
+Introduced a new evaluation criterion: Market Vacancy (India).
+
+* Modeled approximate job availability trends as a deterministic score.
+* Updated all sectors to include vacancy-based scoring.
+* Ensured no changes were required in scoring engine (generic architecture confirmed scalable).
+* Validated dynamic frontend adaptation without modification.
+
+This stage strengthened the system by incorporating supply-side market dynamics into the decision framework while maintaining determinism and transparency.

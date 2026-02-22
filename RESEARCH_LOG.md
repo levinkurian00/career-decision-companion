@@ -168,4 +168,31 @@ No scoring logic or content was copied. It was used only for conceptual structur
 
   Chose deterministic explanation instead.
 
-  
+### Day 7 – Market Vacancy Integration
+
+### Prompt 17
+In the current sector and options there is a feedback missing that is the number of vacancies available for the particular job that has best score or weight. 
+
+Why I asked:
+To improve realism by including job market availability as part of decision criteria.
+
+Decision:
+Did not implement live API scraping.
+Modeled vacancy availability as a structured deterministic score instead.
+
+Reason:
+Keeps system deterministic,Avoids external API dependency, Maintains traceability, Prevents instability
+
+### Prompt 18
+is it better to use real time vacancy api or the approximate job availability in India
+
+Why I asked:
+To evaluate whether real-time data improves the system.
+
+Decision:
+Chose static “Market Vacancy (India)” score modeled from general market trends.
+
+Reason:
+
+Assignment focuses on decision modeling, not live scraping, Keeps system architecture clean, Improves realism without overcomplicating backend
+
