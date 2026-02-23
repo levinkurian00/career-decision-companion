@@ -168,6 +168,8 @@ No scoring logic or content was copied. It was used only for conceptual structur
 
   Chose deterministic explanation instead.
 
+.............................................................................................
+
 ### Day 7 – Market Vacancy Integration
 
 ### Prompt 17
@@ -196,3 +198,35 @@ Reason:
 
 Assignment focuses on decision modeling, not live scraping, Keeps system architecture clean, Improves realism without overcomplicating backend
 
+.............................................................................................
+=============================================================================================
+### Day 8 – Making Quiz Generic Across Sectors
+
+### External reference 2 (The Princeton Review)
+I got the idea for the career quiz from looking at The Princeton Review's website =⇒ [https://www.princetonreview.com/quiz/career-quiz](https://www.princetonreview.com/quiz/career-quiz)
+
+### Prompt 19
+is it possible to implement a simple quiz to identify the interest of the person. is this a good implementation for the project
+
+Why I asked:
+I wanted to improve the usability of the system. Many users may not know how to manually assign weights to abstract criteria like salary or growth. I thought a quiz might help convert qualitative preferences into quantitative weights.
+
+Analysis:
+The current system requires users to manually adjust sliders (1–10 scale). While flexible, this assumes the user can clearly quantify their priorities.
+
+Adding a simple quiz would:
+* Reduce cognitive effort for users.
+* Convert qualitative answers into structured weight vectors.
+* Improve personalization.
+* Strengthen the decision-support aspect of the system.
+
+However, it should not become a psychological personality test or rely on AI-based inference, as that would introduce unnecessary complexity and reduce explainability.
+
+Decision:
+Proceed with a small deterministic quiz (6 questions).
+
+### Prompt 20
+how to make quiz work for all sectors without rewriting everything
+
+Why I asked:
+Wanted scalable solution instead of creating separate quiz for each sector.

@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict
 
-from decision_engine import evaluate
+from decision_engine import evaluate, generate_weights_from_quiz
 from domain_config import SECTORS
 
 app = FastAPI(title="Career Decision Companion API")
@@ -24,6 +24,9 @@ app.add_middleware(
 class EvaluationRequest(BaseModel):
     sector: str
     weights: Dict[str, float]
+class QuizRequest(BaseModel):
+    sector: str
+    answers: Dict[str, int]
 
 
 # -----------------------------
@@ -69,6 +72,20 @@ def get_criteria(sector_name: str):
 def evaluate_career(request: EvaluationRequest):
     try:
         result = evaluate(request.sector, request.weights)
+        return result
+
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@app.post("/quiz-evaluate")
+def quiz_evaluate(request: QuizRequest):
+    try:
+        raw_weights = generate_weights_from_quiz(
+            request.sector,
+            request.answers
+        )
+
+        result = evaluate(request.sector, raw_weights)
         return result
 
     except ValueError as e:

@@ -101,6 +101,8 @@ The system evolved through clear development phases:
 
 Throughout all iterations, the decision engine remained **deterministic**, **explainable**, and **modular**.
 
+------------------------------------------------------------------------------------------
+
 ### Day 6 – Explanation Engine Implementation
 
 Focus: Improving interpretability and decision transparency.
@@ -117,6 +119,8 @@ Integrated explanation section in frontend UI.
 
 This stage enhanced system transparency by making ranking decisions traceable to specific weighted factors instead of just returning numeric results.
 
+----------------------------------------------------------------------------------------
+
 ### Day 7 – Market Vacancy Integration
 
 Focus: Enhancing real-world decision relevance.
@@ -129,3 +133,21 @@ Introduced a new evaluation criterion: Market Vacancy (India).
 * Validated dynamic frontend adaptation without modification.
 
 This stage strengthened the system by incorporating supply-side market dynamics into the decision framework while maintaining determinism and transparency.
+
+===========================================================================================
+
+### Day 8 – Sector-Aware Quiz Refactoring
+
+Focus: Improving scalability and architectural maturity.
+
+* Identified limitation in initial quiz design (technology-specific criterion mapping).
+* Refactored quiz logic to support abstract preference signals instead of direct criterion   mapping.
+* Implemented sector-aware dynamic mapping from abstract preferences to sector-specific criteria.
+* Ensured compatibility across all sectors without modifying core scoring engine.
+* Preserved deterministic and explainable behavior.
+
+This stage strengthened the system by introducing a preference abstraction layer, allowing the quiz to remain generic while dynamically adapting to sector-specific evaluation criteria.
+
+The decision engine remained unchanged, demonstrating proper separation of concerns.
+
+==========================================================================================

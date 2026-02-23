@@ -76,3 +76,34 @@ def evaluate(sector_name, raw_weights):
         ],
         "explanation": explanation
     }
+
+def generate_weights_from_quiz(sector_name, quiz_answers):
+    """
+    quiz_answers: dict of question_id -> score (1–5)
+    Returns raw weight vector mapped to sector criteria.
+    """
+
+    sector = SECTORS[sector_name]
+    criteria = sector["criteria"]
+
+    # Initialize all weights to 1 (baseline)
+    weights = {criterion: 1 for criterion in criteria}
+
+    # Map quiz answers to criteria
+    # Assume quiz_answers = {"q1": 4, "q2": 3, ...}
+
+    weights_map = {
+        "q1": "Salary Potential",
+        "q2": "Market Vacancy (India)",
+        "q3": "Learning Curve Difficulty",
+        "q4": "Work-Life Balance",
+        "q5": "Job Demand",
+        "q6": "Learning Curve Difficulty"
+    }
+
+    for q, answer in quiz_answers.items():
+        criterion = weights_map.get(q)
+        if criterion in weights:
+            weights[criterion] += answer  # Increase weight proportionally
+
+    return weights

@@ -168,3 +168,27 @@ This score:
 * Is not derived from live scraping or external APIs.
 * Enhances realism by integrating supply-side dynamics.
 * Because the decision engine is generic, adding this criterion required no changes to scoring logic — demonstrating architectural scalability.
+
+==========================================================================================
+
+### Sector-Aware Interest Quiz  (Day 8)
+
+The initial quiz implementation mapped directly to technology-sector criteria.
+In Day 10, the design was refactored to introduce a preference abstraction layer.
+
+The quiz now:
+
+* Collects abstract preference signals (e.g., financial growth, stability, challenge tolerance).
+* Dynamically maps those signals to sector-specific criteria.
+* Generates weight vectors compatible with any sector.
+* Preserves deterministic and explainable logic.
+
+This enhancement ensures:
+
+* Cross-sector compatibility
+* Architectural scalability
+* Separation between preference elicitation and evaluation engine
+* No modification required in core scoring algorithm
+
+The quiz does not predict personality traits.
+It converts structured qualitative inputs into quantitative weight distributions.
