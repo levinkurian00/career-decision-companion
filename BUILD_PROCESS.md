@@ -149,5 +149,20 @@ Focus: Improving scalability and architectural maturity.
 This stage strengthened the system by introducing a preference abstraction layer, allowing the quiz to remain generic while dynamically adapting to sector-specific evaluation criteria.
 
 The decision engine remained unchanged, demonstrating proper separation of concerns.
+---------------------------------------------------------------------------------------------
 
-==========================================================================================
+### Day 9: Optimized Decision Architecture
+
+Focus: Streamlining the user journey via structured inference.
+* Redesigned Flow: Replaced manual sector selection with a two-stage logic:
+  1. Sector Recommendation: Inferred via determine_sector_from_quiz().
+  2. Career Optimization: Targeted refinement within the identified sector.
+
+System Integration: Updated the quiz endpoint to automatically generate initial weight vectors and preload sliders, bridging preference elicitation with ranking.
+
+Architecture Evolution: Transitioned from a flat model to a layered pipeline:
+Preference Elicitation → Sector Recommendation → Weight Initialization → Career Ranking
+
+Impact: Enhanced usability and automated onboarding while preserving the deterministic nature and transparency of the core engine.
+
+---------------------------------------------------------------------------------------------

@@ -79,31 +79,109 @@ def evaluate(sector_name, raw_weights):
 
 def generate_weights_from_quiz(sector_name, quiz_answers):
     """
-    quiz_answers: dict of question_id -> score (1–5)
-    Returns raw weight vector mapped to sector criteria.
+    Converts abstract quiz preferences into sector-specific weight vector.
     """
 
     sector = SECTORS[sector_name]
     criteria = sector["criteria"]
 
-    # Initialize all weights to 1 (baseline)
+    # Initialize base weights
     weights = {criterion: 1 for criterion in criteria}
 
-    # Map quiz answers to criteria
-    # Assume quiz_answers = {"q1": 4, "q2": 3, ...}
-
-    weights_map = {
-        "q1": "Salary Potential",
-        "q2": "Market Vacancy (India)",
-        "q3": "Learning Curve Difficulty",
-        "q4": "Work-Life Balance",
-        "q5": "Job Demand",
-        "q6": "Learning Curve Difficulty"
+    # Abstract preference signals
+    abstract_mapping = {
+        "q1": "financial_growth",
+        "q2": "market_opportunity",
+        "q3": "challenge_tolerance",
+        "q4": "work_life_balance",
+        "q5": "long_term_growth",
+        "q6": "intellectual_stimulation"
     }
 
-    for q, answer in quiz_answers.items():
-        criterion = weights_map.get(q)
-        if criterion in weights:
-            weights[criterion] += answer  # Increase weight proportionally
+    # Sector-specific mapping
+    sector_mapping = {
+        "Technology": {
+            "financial_growth": "Salary Potential",
+            "market_opportunity": "Market Vacancy (India)",
+            "challenge_tolerance": "Learning Curve Difficulty",
+            "work_life_balance": "Work-Life Balance",
+            "long_term_growth": "Job Demand",
+            "intellectual_stimulation": "Learning Curve Difficulty"
+        },
+        "Finance": {
+            "financial_growth": "Compensation Growth",
+            "market_opportunity": "Market Vacancy (India)",
+            "challenge_tolerance": "Work Pressure",
+            "work_life_balance": "Market Stability",
+            "long_term_growth": "Compensation Growth",
+            "intellectual_stimulation": "Work Pressure"
+        },
+        "Government Services": {
+            "financial_growth": "Salary Growth",
+            "market_opportunity": "Market Vacancy (India)",
+            "challenge_tolerance": "Competitive Difficulty",
+            "work_life_balance": "Work-Life Balance",
+            "long_term_growth": "Job Security",
+            "intellectual_stimulation": "Social Impact"
+        },
+        "Management & Business": {
+            "financial_growth": "Income Potential",
+            "market_opportunity": "Market Vacancy (India)",
+            "challenge_tolerance": "Work Pressure",
+            "work_life_balance": "Career Flexibility",
+            "long_term_growth": "Leadership Growth",
+            "intellectual_stimulation": "Entrepreneurial Exposure"
+        }
+    }
+
+    for question_id, answer in quiz_answers.items():
+        abstract_signal = abstract_mapping.get(question_id)
+
+        if abstract_signal:
+            mapped_criterion = sector_mapping[sector_name].get(abstract_signal)
+
+            if mapped_criterion in weights:
+                weights[mapped_criterion] += answer
 
     return weights
+
+def determine_sector_from_quiz(quiz_answers):
+    """
+    Determine best-fit sector based on abstract preference signals.
+    """
+
+    sector_scores = {
+        "Technology": 0,
+        "Finance": 0,
+        "Government Services": 0,
+        "Management & Business": 0
+    }
+
+    for q, value in quiz_answers.items():
+
+        if q == "q1":  # Financial Growth
+            sector_scores["Technology"] += value
+            sector_scores["Finance"] += value
+            sector_scores["Management & Business"] += value
+
+        elif q == "q2":  # Market Opportunity
+            sector_scores["Technology"] += value
+            sector_scores["Finance"] += value
+
+        elif q == "q3":  # Challenge
+            sector_scores["Technology"] += value
+            sector_scores["Management & Business"] += value
+
+        elif q == "q4":  # Work-life balance
+            sector_scores["Government Services"] += value
+            sector_scores["Finance"] += value
+
+        elif q == "q5":  # Long-term growth
+            sector_scores["Technology"] += value
+            sector_scores["Management & Business"] += value
+
+        elif q == "q6":  # Intellectual stimulation
+            sector_scores["Technology"] += value
+            sector_scores["Finance"] += value
+
+    return max(sector_scores, key=sector_scores.get)

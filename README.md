@@ -192,3 +192,33 @@ This enhancement ensures:
 
 The quiz does not predict personality traits.
 It converts structured qualitative inputs into quantitative weight distributions.
+---------------------------------------------------------------------------------------------
+### Two-Stage Decision Flow (Sector → Career) (Day 9)
+
+On Day 8, the system was redesigned to introduce a structured two-stage decision process.
+Instead of asking users to manually select a sector, the system now:
+1. Collects preference signals through an interest quiz.
+2. Determines the most aligned sector.
+3. Generates initial criterion weights for that sector.
+4. Allows the user to fine-tune priorities using sliders.
+5. Ranks careers within the recommended sector.
+
+This separates:
+
+* Macro-level alignment (Which sector suits the user?)
+* Micro-level optimization (Which career inside that sector fits best?)
+
+The architecture now consists of:
+* Preference Layer (Quiz)
+* Sector Recommendation Engine
+* Weight Generation Engine
+* Deterministic Career Scoring Engine
+
+This ensures:
+* Improved usability
+* Reduced cognitive load
+* Strong separation of concerns
+* Explainable and reproducible outputs
+
+No AI model is used for inference. The system remains deterministic and transparent.
+---------------------------------------------------------------------------------------------

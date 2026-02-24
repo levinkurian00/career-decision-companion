@@ -1,37 +1,23 @@
 import React, { useEffect, useState } from "react";
 
 function App() {
-  const [sectors, setSectors] = useState([]);
   const [selectedSector, setSelectedSector] = useState("");
   const [criteria, setCriteria] = useState([]);
   const [weights, setWeights] = useState({});
   const [ranking, setRanking] = useState([]);
   const [explanation, setExplanation] = useState("");
   const [sensitivity, setSensitivity] = useState("");
-  const [showQuiz, setShowQuiz] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(true);
   const [quizAnswers, setQuizAnswers] = useState({});
+  const [recommendedSector, setRecommendedSector] = useState("");
 
-  // Fetch sectors on load
-  useEffect(() => {
-    fetch("http://localhost:8000/sectors")
-      .then(res => res.json())
-      .then(data => setSectors(data.sectors))
-      .catch(err => console.error("Sector fetch error:", err));
-  }, []);
-
-  // Fetch criteria when sector changes
+  // Load criteria automatically after sector is set
   useEffect(() => {
     if (selectedSector) {
       fetch(`http://localhost:8000/criteria/${selectedSector}`)
         .then(res => res.json())
         .then(data => {
           setCriteria(data.criteria);
-
-          const initialWeights = {};
-          data.criteria.forEach(c => {
-            initialWeights[c] = 5;
-          });
-          setWeights(initialWeights);
         })
         .catch(err => console.error("Criteria fetch error:", err));
     }
@@ -51,6 +37,31 @@ function App() {
     });
   };
 
+  const submitQuiz = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/quiz-evaluate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          answers: quizAnswers
+        })
+      });
+
+      const data = await response.json();
+
+      setRecommendedSector(data.recommended_sector);
+      setSelectedSector(data.recommended_sector);
+      setWeights(data.initial_weights);
+      setShowQuiz(false);
+
+    } catch (error) {
+      console.error("Quiz error:", error);
+      alert("Backend not reachable.");
+    }
+  };
+
   const evaluateCareer = async () => {
     try {
       const response = await fetch("http://localhost:8000/evaluate", {
@@ -65,103 +76,29 @@ function App() {
       });
 
       const data = await response.json();
+
       setRanking(data.ranking);
       setExplanation(data.explanation);
       setSensitivity(data.sensitivity || "");
+
     } catch (error) {
       console.error("Evaluation error:", error);
-      alert("Backend not reachable. Make sure it is running.");
-    }
-  };
-
-  const submitQuiz = async () => {
-    if (!selectedSector) {
-      alert("Please select a sector first.");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:8000/quiz-evaluate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          sector: selectedSector,
-          answers: quizAnswers
-        })
-      });
-
-      const data = await response.json();
-
-      setRanking(data.ranking);
-      setExplanation(data.explanation);
-      setSensitivity(data.sensitivity || "");
-      setShowQuiz(false);
-    } catch (error) {
-      console.error("Quiz error:", error);
-      alert("Backend not reachable. Make sure it is running.");
+      alert("Backend not reachable.");
     }
   };
 
   const quizQuestions = [
-    { id: "q1", text: "I prioritize high income over comfort." },
+    { id: "q1", text: "I prioritize financial growth." },
     { id: "q2", text: "I prefer careers with strong job availability." },
-    { id: "q3", text: "I am comfortable with steep learning curves." },
+    { id: "q3", text: "I enjoy challenging and complex problems." },
     { id: "q4", text: "I value work-life balance highly." },
-    { id: "q5", text: "I am motivated by long-term growth potential." },
-    { id: "q6", text: "I enjoy intellectually challenging work." }
+    { id: "q5", text: "I seek long-term growth opportunities." },
+    { id: "q6", text: "I enjoy intellectually stimulating work." }
   ];
 
   return (
     <div style={{ padding: "40px", fontFamily: "Arial" }}>
       <h1>Career Decision Companion</h1>
-
-      <h3>Select Sector</h3>
-      <select
-        value={selectedSector}
-        onChange={(e) => setSelectedSector(e.target.value)}
-      >
-        <option value="">-- Choose Sector --</option>
-        {sectors.map((sector) => (
-          <option key={sector} value={sector}>
-            {sector}
-          </option>
-        ))}
-      </select>
-
-      <br />
-
-      <button
-        onClick={() => setShowQuiz(true)}
-        style={{ marginTop: "15px" }}
-      >
-        Take Interest Quiz
-      </button>
-
-      {criteria.length > 0 && (
-        <>
-          <h3 style={{ marginTop: "30px" }}>Rate Importance (1–10)</h3>
-
-          {criteria.map((criterion) => (
-            <div key={criterion} style={{ marginBottom: "20px" }}>
-              <label>
-                {criterion}: {weights[criterion]}
-              </label>
-              <input
-                type="range"
-                min="1"
-                max="10"
-                value={weights[criterion]}
-                onChange={(e) => handleChange(criterion, e.target.value)}
-                style={{ width: "100%" }}
-              />
-            </div>
-          ))}
-
-          <button onClick={evaluateCareer}>Evaluate</button>
-        </>
-      )}
 
       {showQuiz && (
         <div style={{ marginTop: "30px" }}>
@@ -188,9 +125,45 @@ function App() {
         </div>
       )}
 
+      {!showQuiz && recommendedSector && (
+        <>
+          <h2 style={{ marginTop: "30px" }}>
+            Recommended Sector: {recommendedSector}
+          </h2>
+
+          {criteria.length > 0 && (
+            <>
+              <h3 style={{ marginTop: "20px" }}>
+                Fine-Tune Your Priorities (1–10)
+              </h3>
+
+              {criteria.map((criterion) => (
+                <div key={criterion} style={{ marginBottom: "20px" }}>
+                  <label>
+                    {criterion}: {weights[criterion]}
+                  </label>
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    value={weights[criterion]}
+                    onChange={(e) =>
+                      handleChange(criterion, e.target.value)
+                    }
+                    style={{ width: "100%" }}
+                  />
+                </div>
+              ))}
+
+              <button onClick={evaluateCareer}>Evaluate Careers</button>
+            </>
+          )}
+        </>
+      )}
+
       {ranking.length > 0 && (
         <>
-          <h3 style={{ marginTop: "40px" }}>Ranking Result</h3>
+          <h3 style={{ marginTop: "40px" }}>Career Ranking</h3>
           {ranking.map((item, index) => (
             <div key={index}>
               {index + 1}. {item[0]} — {item[1].toFixed(2)}

@@ -230,3 +230,40 @@ how to make quiz work for all sectors without rewriting everything
 
 Why I asked:
 Wanted scalable solution instead of creating separate quiz for each sector.
+
+--------------------------------------------------------------------------------------
+
+### External reference 3 (Google gemini)
+Top career paths for Indian engineers outside their core fields:
+  Management consulting, product management, investment banking, civil services, and entrepreneurship are five of the top non-core career paths for Indian engineers. 
+
+### External reference 4 
+ I have referenced Shiksha.com ([https://www.shiksha.com/engineering/articles/alternative-career-paths-after-btech-blogId-190814](https://www.shiksha.com/engineering/articles/alternative-career-paths-after-btech-blogId-190814)) for the Alternative Career Paths Engineers took After BTech to implement in the quiz.
+
+ ### Prompt 21
+ this needs some cleanup . in the mainpage the user don't directly enters the quiz section  and the quiz must be about all sectors (don't need sector option dropdown anymore). the quiz result must be a sector like finance,tech,etc. then only show the slider options (ie hide the slider) then the slider used to find the best job in that sector . for eg: if tech was the sector scored the best score in quiz the next option is the slider then like the old way changing the slider to get desired output like web development
+  
+  Reason:
+  * The earlier flow required user to understand sectors before answering quiz. That felt    unnatural.
+  * Wanted smoother experience and stronger connection between quiz and ranking logic.
+
+### Prompt 22
+how to structure backend so sector recommendation and weight generation are separate
+
+Decision Taken:
+
+Instead of directly mapping quiz to criteria, the system now:
+1. Uses quiz to determine macro-level sector alignment.
+2. Generates initial criterion weights for that sector.
+3. Allows user to refine those weights manually.
+
+This ensures:
+* Better UX flow
+* Cleaner separation of logic
+* Reusable scoring engine
+* Deterministic behaviour
+* No black-box inference
+
+The model now operates in layered decision stages.
+
+--------------------------------------------------------------------------------------
