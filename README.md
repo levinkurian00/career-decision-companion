@@ -221,4 +221,29 @@ This ensures:
 * Explainable and reproducible outputs
 
 No AI model is used for inference. The system remains deterministic and transparent.
+
 ---------------------------------------------------------------------------------------------
+
+### Dual Entry Flow (Quiz + Manual Mode) --> Day 10
+
+The system now supports two entry paths:
+
+1. Interest Quiz (Recommended)
+  * User answers 6 abstract preference questions.
+  * The system determines the most aligned sector.
+  * Initial criterion weights are generated automatically.
+  * User can fine-tune weights using sliders.
+  
+2. Manual Sector Selection
+  * User directly selects a sector.
+  * Sliders initialize with neutral weights (default = 5).
+  * User adjusts importance and evaluates careers.
+  
+  This design improves usability by:
+  * Reducing cognitive load for uncertain users.
+  * Allowing experienced users to skip the quiz.
+  * Preserving deterministic scoring logic.
+  * Maintaining full transparency of the decision process.
+  * Ensuring flexibility without introducing black-box inference.
+
+  ----------------------------------------------------------------------------------

@@ -7,17 +7,28 @@ function App() {
   const [ranking, setRanking] = useState([]);
   const [explanation, setExplanation] = useState("");
   const [sensitivity, setSensitivity] = useState("");
-  const [showQuiz, setShowQuiz] = useState(true);
   const [quizAnswers, setQuizAnswers] = useState({});
   const [recommendedSector, setRecommendedSector] = useState("");
+  const [mode, setMode] = useState(""); // "" | "quiz" | "manual"
+  const [showQuiz, setShowQuiz] = useState(true);
 
-  // Load criteria automatically after sector is set
+  // Load criteria whenever sector changes
   useEffect(() => {
     if (selectedSector) {
       fetch(`http://localhost:8000/criteria/${selectedSector}`)
         .then(res => res.json())
         .then(data => {
-          setCriteria(data.criteria);
+          const fetchedCriteria = data.criteria || [];
+
+          setCriteria(fetchedCriteria);
+
+          // Initialize weights for manual mode
+          const initialWeights = {};
+          fetchedCriteria.forEach(c => {
+            initialWeights[c] = weights[c] || 5;
+          });
+
+          setWeights(initialWeights);
         })
         .catch(err => console.error("Criteria fetch error:", err));
     }
@@ -53,8 +64,9 @@ function App() {
 
       setRecommendedSector(data.recommended_sector);
       setSelectedSector(data.recommended_sector);
-      setWeights(data.initial_weights);
+      setWeights(data.initial_weights || {});
       setShowQuiz(false);
+      setMode("manual");
 
     } catch (error) {
       console.error("Quiz error:", error);
@@ -63,6 +75,10 @@ function App() {
   };
 
   const evaluateCareer = async () => {
+    console.log("Evaluate clicked");
+    console.log("Selected sector:", selectedSector);
+    console.log("Weights:", weights);
+
     try {
       const response = await fetch("http://localhost:8000/evaluate", {
         method: "POST",
@@ -77,8 +93,8 @@ function App() {
 
       const data = await response.json();
 
-      setRanking(data.ranking);
-      setExplanation(data.explanation);
+      setRanking(data.ranking || []);
+      setExplanation(data.explanation || "");
       setSensitivity(data.sensitivity || "");
 
     } catch (error) {
@@ -100,7 +116,38 @@ function App() {
     <div style={{ padding: "40px", fontFamily: "Arial" }}>
       <h1>Career Decision Companion</h1>
 
-      {showQuiz && (
+      {/* Initial Entry Selection */}
+      {mode === "" && (
+        <div style={{ marginTop: "30px" }}>
+          <button onClick={() => setMode("quiz")} style={{ marginRight: "15px" }}>
+            Take Interest Quiz (Recommended)
+          </button>
+
+          <button onClick={() => setMode("manual")}>
+            I Already Know My Sector
+          </button>
+        </div>
+      )}
+
+      {/* Manual Sector Selection */}
+      {mode === "manual" && !selectedSector && (
+        <div style={{ marginTop: "30px" }}>
+          <h3>Select Sector</h3>
+          <select
+            value={selectedSector}
+            onChange={(e) => setSelectedSector(e.target.value)}
+          >
+            <option value="">-- Choose Sector --</option>
+            <option value="Technology">Technology</option>
+            <option value="Finance">Finance</option>
+            <option value="Government Services">Government Services</option>
+            <option value="Management & Business">Management & Business</option>
+          </select>
+        </div>
+      )}
+
+      {/* Quiz Mode */}
+      {mode === "quiz" && showQuiz && (
         <div style={{ marginTop: "30px" }}>
           <h3>Interest Quiz (Rate 1–5)</h3>
 
@@ -125,13 +172,16 @@ function App() {
         </div>
       )}
 
-      {!showQuiz && recommendedSector && (
+      {/* Sector + Sliders */}
+      {selectedSector && (
         <>
           <h2 style={{ marginTop: "30px" }}>
-            Recommended Sector: {recommendedSector}
+            {recommendedSector
+              ? `Recommended Sector: ${recommendedSector}`
+              : `Selected Sector: ${selectedSector}`}
           </h2>
 
-          {criteria.length > 0 && (
+          {Array.isArray(criteria) && criteria.length > 0 && (
             <>
               <h3 style={{ marginTop: "20px" }}>
                 Fine-Tune Your Priorities (1–10)
@@ -146,7 +196,7 @@ function App() {
                     type="range"
                     min="1"
                     max="10"
-                    value={weights[criterion]}
+                    value={weights[criterion] || 5}
                     onChange={(e) =>
                       handleChange(criterion, e.target.value)
                     }
@@ -155,13 +205,16 @@ function App() {
                 </div>
               ))}
 
-              <button onClick={evaluateCareer}>Evaluate Careers</button>
+              <button onClick={evaluateCareer}>
+                Evaluate Careers
+              </button>
             </>
           )}
         </>
       )}
 
-      {ranking.length > 0 && (
+      {/* Ranking */}
+      {Array.isArray(ranking) && ranking.length > 0 && (
         <>
           <h3 style={{ marginTop: "40px" }}>Career Ranking</h3>
           {ranking.map((item, index) => (
@@ -172,6 +225,7 @@ function App() {
         </>
       )}
 
+      {/* Explanation */}
       {explanation && (
         <>
           <h3 style={{ marginTop: "30px" }}>Why This Result?</h3>
@@ -179,6 +233,7 @@ function App() {
         </>
       )}
 
+      {/* Sensitivity */}
       {sensitivity && (
         <>
           <h3 style={{ marginTop: "20px" }}>Model Stability</h3>

@@ -199,7 +199,7 @@ Reason:
 Assignment focuses on decision modeling, not live scraping, Keeps system architecture clean, Improves realism without overcomplicating backend
 
 .............................................................................................
-=============================================================================================
+
 ### Day 8 – Making Quiz Generic Across Sectors
 
 ### External reference 2 (The Princeton Review)
@@ -232,7 +232,7 @@ Why I asked:
 Wanted scalable solution instead of creating separate quiz for each sector.
 
 --------------------------------------------------------------------------------------
-
+### Day 9
 ### External reference 3 (Google gemini)
 Top career paths for Indian engineers outside their core fields:
   Management consulting, product management, investment banking, civil services, and entrepreneurship are five of the top non-core career paths for Indian engineers. 
@@ -266,4 +266,28 @@ This ensures:
 
 The model now operates in layered decision stages.
 
---------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+
+### Day 10 
+### Prompt 23
+  in the project the page directly enters the quiz right ? what if someone only looking for a job in tech  sector. how to skip the quiz then only for that certain case . otherwise conduct the quiz and other part follows.
+  ### Solution:
+    The system can support a dual-entry design where users either take the quiz for sector discovery or directly select a known sector (e.g., Technology), allowing experienced users to bypass the quiz while preserving deterministic evaluation logic.
+
+### Prompt 24
+  i need  to change the jobs under each section . i mean technology field is perfect for engineering graduates . but some of the jobs in other sectors need other qualifications for that job . for eg: chartered accountant needs finance background in the degree to get that job. i think there are a few in the list that affects the completeness of the project
+  ### Solution:
+    i need  to change the jobs under each section . i mean technology field is perfect for engineering graduates . but some of the jobs in other sectors need other qualifications for that job . for eg: chartered accountant needs finance background in the degree to get that job. i think there are a few in the list that affects the completeness of the project
+
+Today focused on stability rather than feature expansion.
+
+Improvements made:
+* Fixed critical weight initialization bug.
+* Strengthened state safety.
+* Improved frontend-backend synchronization.
+
+Finalized clean dual entry flow.
+
+No architectural changes were introduced.System remains deterministic and modular.
+
+---------------------------------------------------------------------------------------------

@@ -166,3 +166,25 @@ Preference Elicitation → Sector Recommendation → Weight Initialization → C
 Impact: Enhanced usability and automated onboarding while preserving the deterministic nature and transparency of the core engine.
 
 ---------------------------------------------------------------------------------------------
+
+### Day 10 – Stability & State Management Fixes
+
+Focus: Fixing evaluation failure in manual mode and improving frontend robustness.
+
+* Diagnosed issue where weights was empty during manual sector selection.
+* Identified missing initialization after criteria fetch.
+* Implemented automatic default weight assignment (value = 5).
+* Added defensive state handling to prevent undefined .length errors.
+* Improved API response handling with fallback defaults.
+* Cleaned dual entry flow (Quiz vs Manual mode).
+
+Outcome:
+The application now:
+  * Evaluates correctly in both quiz and manual flows.
+  * Prevents state-related crashes.
+  * Maintains deterministic decision logic.
+  * Improves overall system reliability.
+
+Today focused on robustness and correctness rather than feature expansion.
+
+---------------------------------------------------------------------------------------------
