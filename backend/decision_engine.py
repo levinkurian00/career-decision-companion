@@ -50,6 +50,36 @@ def generate_explanation(top_career_name, career_data, weights):
 
     return explanation
 
+def generate_comparison_explanation(top_career, second_career, weights):
+    """
+    Compare top two careers and explain why second ranked lower.
+    """
+
+    top_contrib = top_career["contributions"]
+    second_contrib = second_career["contributions"]
+
+    differences = {}
+
+    for criterion in top_contrib:
+        differences[criterion] = top_contrib[criterion] - second_contrib.get(criterion, 0)
+
+    # Sort by largest difference
+    sorted_diff = sorted(
+        differences.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    # Take top 2 differentiators
+    top_reasons = [crit for crit, val in sorted_diff[:2] if val > 0]
+
+    if not top_reasons:
+        return "The top two careers performed very similarly across most criteria."
+
+    return (
+        f"The second-ranked career scored lower mainly due to weaker performance in "
+        f"{' and '.join(top_reasons)} compared to the top-ranked option."
+    )
 
 def evaluate(sector_name, raw_weights):
     validate_weights(sector_name, raw_weights)
@@ -63,6 +93,15 @@ def evaluate(sector_name, raw_weights):
     top_career_name = ranked[0][0]
     top_career_data = ranked[0][1]
 
+    comparison_explanation = ""
+    if len(ranked) > 1:
+        second_career_data = ranked[1][1]
+        comparison_explanation = generate_comparison_explanation(
+        top_career_data,
+        second_career_data,
+        normalized_weights
+    )
+
     explanation = generate_explanation(
         top_career_name,
         top_career_data,
@@ -70,12 +109,13 @@ def evaluate(sector_name, raw_weights):
     )
 
     return {
-        "ranking": [
-            (career, data["total_score"])
-            for career, data in ranked
-        ],
-        "explanation": explanation
-    }
+    "ranking": [
+        (career, data["total_score"])
+        for career, data in ranked
+    ],
+    "explanation": explanation,
+    "comparison_explanation": comparison_explanation
+}
 
 def generate_weights_from_quiz(sector_name, quiz_answers):
     """

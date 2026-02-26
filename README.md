@@ -247,3 +247,28 @@ The system now supports two entry paths:
   * Ensuring flexibility without introducing black-box inference.
 
   ----------------------------------------------------------------------------------
+
+### Comparative Explanation Module (Why Not Others?) -->Day 11
+
+To improve analytical depth, the system now includes a comparative explanation module.
+
+After ranking careers, the system:
+* Compares the top two alternatives.
+* Calculates contribution differences per criterion.
+* Identifies the strongest differentiating factors.
+* Explains why the second-ranked career scored lower.
+
+Example:
+
+The second-ranked career scored lower mainly due to weaker performance in Market Vacancy (India) and Work-Life Balance compared to the top-ranked option.
+
+This enhancement improves:
+
+* Decision transparency
+* Trade-off visibility
+* User trust
+* Analytical maturity
+
+The comparison logic remains fully deterministic and does not rely on LLM-based generation.
+
+------------------------------------------------------------------------------------

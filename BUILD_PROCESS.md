@@ -188,3 +188,23 @@ The application now:
 Today focused on robustness and correctness rather than feature expansion.
 
 ---------------------------------------------------------------------------------------------
+
+### Day 11 – Comparative Explanation Engine
+
+Focus: Enhancing decision transparency beyond top-result explanation.
+
+* Identified limitation: system only explained top-ranked career.
+* Designed comparative contribution analysis between top two careers.
+* Implemented criterion-level difference calculation.
+* Generated deterministic explanation for second-ranked outcome.
+* Integrated frontend display under “Why Not Others?” section.
+
+No changes were made to scoring formula or normalization logic.
+
+Outcome:
+* The system now provides:
+* Ranking
+* Primary explanation
+* Comparative trade-off reasoning
+
+This improves interpretability without increasing architectural complexity.

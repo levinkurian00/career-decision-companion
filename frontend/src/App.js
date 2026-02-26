@@ -11,6 +11,7 @@ function App() {
   const [recommendedSector, setRecommendedSector] = useState("");
   const [mode, setMode] = useState(""); // "" | "quiz" | "manual"
   const [showQuiz, setShowQuiz] = useState(true);
+  const [comparisonExplanation, setComparisonExplanation] = useState("");
 
   // Load criteria whenever sector changes
   useEffect(() => {
@@ -96,6 +97,7 @@ function App() {
       setRanking(data.ranking || []);
       setExplanation(data.explanation || "");
       setSensitivity(data.sensitivity || "");
+      setComparisonExplanation(data.comparison_explanation || "");
 
     } catch (error) {
       console.error("Evaluation error:", error);
@@ -232,6 +234,12 @@ function App() {
           <p>{explanation}</p>
         </>
       )}
+      {comparisonExplanation && (
+  <>
+    <h3 style={{ marginTop: "20px" }}>Why Not Others?</h3>
+    <p>{comparisonExplanation}</p>
+  </>
+)}
 
       {/* Sensitivity */}
       {sensitivity && (

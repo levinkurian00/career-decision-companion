@@ -291,3 +291,48 @@ Finalized clean dual entry flow.
 No architectural changes were introduced.System remains deterministic and modular.
 
 ---------------------------------------------------------------------------------------------
+
+### Day 11 – Comparative Trade-Off Explanation
+
+### Prompt 26
+how can i explain why second ranked career lost and not only why first won
+
+Why I asked:
+The system only explained the top-ranked career. I wanted deeper transparency by highlighting trade-offs between close alternatives.
+
+Analysis:
+Users often care about the difference between top options rather than only the winner. Comparing contribution breakdowns can reveal meaningful decision drivers.
+
+Decision:
+* Compare top two ranked careers.
+* Compute criterion-level contribution differences.
+* Identify largest differentiators.
+* Generate deterministic comparison explanation.
+* Avoid LLM-based explanation for consistency.
+
+Rejected Approach:
+Using AI-generated comparison text.
+Reason: Reduces traceability and introduces non-determinism.
+
+Implementation:
+Created *generate_comparison_explanation()* function using contribution difference sorting.
+
+Result:
+System now explains:
+* Why the top career won
+* Why the second career scored lower
+* What criteria influenced the difference most
+
+*Reflection* – Day 11
+
+Today’s improvement focused on decision transparency rather than feature expansion.
+
+Enhancement increases:
+* Analytical clarity
+* Interpretability
+* User trust
+* System maturity
+
+Core weighted scoring logic remains unchanged
+
+----------------------------------------------------------------------------------
