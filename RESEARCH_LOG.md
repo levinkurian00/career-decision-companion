@@ -336,3 +336,43 @@ Enhancement increases:
 Core weighted scoring logic remains unchanged
 
 ----------------------------------------------------------------------------------
+
+## Day 9 – UI cleanup and comparison explanation
+
+### Prompt 27
+fix the dropdown option with more clean and minimal options and also the 'why 1st one over second career explanation' missing at the bottom
+
+Why I asked:
+The dropdown looked cluttered and not clean. Also the system was giving only one explanation and not clearly explaining why rank 1 is better than rank 2.
+
+Decision:
+- Simplified dropdown to numeric 1–5 scale.
+- Added a comparison explanation layer in backend.
+- Computed score difference between top two careers.
+- Returned additional explanation field from API.
+
+Reason:
+Improves clarity.
+Makes system look more structured.
+Strengthens decision-support logic.
+
+---
+### External Reference
+I looked at pickmycareer.in and mindler.com for design ideas and ux, but ended up using a design made by AI.
+(https://pickmycareer.in/,https://www.mindler.com/)
+
+### Prompt 28
+how to make the UI look more professional but not flashy
+
+Why I asked:
+The system was functionally strong but visually plain.
+
+Decision:
+- Added centered card layout.
+- Introduced consistent spacing.
+- Highlighted top-ranked result.
+- Improved hierarchy of headings.
+
+The goal was minimal and clean, not over-designed.
+
+--------

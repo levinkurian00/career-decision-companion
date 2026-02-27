@@ -208,3 +208,38 @@ Outcome:
 * Comparative trade-off reasoning
 
 This improves interpretability without increasing architectural complexity.
+
+------------------------------------------------------------------------------------------
+
+## Day 12 – UI Refinement & Comparative Reasoning
+
+**Focus:** Improve presentation and decision transparency.
+
+### Enhancements Made
+
+- Redesigned frontend layout using centered card structure.
+- Introduced consistent spacing and section hierarchy.
+- Simplified quiz dropdown scale to minimal numeric options.
+- Highlighted top-ranked career visually.
+
+### Comparative Explanation Engine
+
+Added structured explanation to answer:
+
+“Why is Career #1 ranked above Career #2?”
+
+Implementation:
+
+- Extracted top two ranked careers.
+- Computed score difference.
+- Generated deterministic comparison explanation.
+
+This improved:
+
+- Practical reasoning clarity
+- Transparency in decision logic
+- System interpretability
+
+The system now presents not only ranking, but structured justification between competing options.
+
+-------------------------------------------------------------------------------------

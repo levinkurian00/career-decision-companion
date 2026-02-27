@@ -272,3 +272,33 @@ This enhancement improves:
 The comparison logic remains fully deterministic and does not rely on LLM-based generation.
 
 ------------------------------------------------------------------------------------
+
+## UI & Explainability Enhancements ==> Day 12
+
+The system interface was refined to improve usability and visual clarity.
+
+### UI Improvements
+- Introduced centered card-based layout.
+- Added visual hierarchy and spacing improvements.
+- Cleaned quiz rating scale to minimal 1–5 numeric format.
+- Highlighted top-ranked career visually.
+- Structured ranking display for better readability.
+
+### Comparative Explanation Layer
+
+In addition to overall explanation, the system now provides:
+
+- A structured comparison between Rank #1 and Rank #2.
+- Explicit reasoning for why the top career outperforms the second.
+- Quantified score difference for clarity.
+
+This improves transparency and strengthens the decision-support nature of the system.
+
+The system now operates with:
+
+1. Sector identification (macro-level)
+2. Weighted scoring (micro-level)
+3. Contribution analysis
+4. Comparative reasoning layer
+
+This layered approach enhances interpretability while preserving deterministic logic.

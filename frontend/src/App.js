@@ -9,43 +9,41 @@ function App() {
   const [sensitivity, setSensitivity] = useState("");
   const [quizAnswers, setQuizAnswers] = useState({});
   const [recommendedSector, setRecommendedSector] = useState("");
-  const [mode, setMode] = useState(""); // "" | "quiz" | "manual"
-  const [showQuiz, setShowQuiz] = useState(true);
-  const [comparisonExplanation, setComparisonExplanation] = useState("");
+  const [mode, setMode] = useState(""); // "", "quiz", "manual"
 
-  // Load criteria whenever sector changes
+  // Load criteria when sector changes
   useEffect(() => {
-    if (selectedSector) {
-      fetch(`http://localhost:8000/criteria/${selectedSector}`)
-        .then(res => res.json())
-        .then(data => {
-          const fetchedCriteria = data.criteria || [];
+    if (!selectedSector) return;
 
-          setCriteria(fetchedCriteria);
+    fetch(`http://localhost:8000/criteria/${selectedSector}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.criteria) return;
 
-          // Initialize weights for manual mode
-          const initialWeights = {};
-          fetchedCriteria.forEach(c => {
-            initialWeights[c] = weights[c] || 5;
-          });
+        setCriteria(data.criteria);
 
-          setWeights(initialWeights);
-        })
-        .catch(err => console.error("Criteria fetch error:", err));
-    }
+        // If no weights exist (manual mode), initialize to 5
+        const initialWeights = {};
+        data.criteria.forEach((c) => {
+          initialWeights[c] = weights[c] || 5;
+        });
+
+        setWeights(initialWeights);
+      })
+      .catch((err) => console.error("Criteria fetch error:", err));
   }, [selectedSector]);
 
   const handleChange = (criterion, value) => {
     setWeights({
       ...weights,
-      [criterion]: Number(value)
+      [criterion]: Number(value),
     });
   };
 
   const handleQuizChange = (questionId, value) => {
     setQuizAnswers({
       ...quizAnswers,
-      [questionId]: Number(value)
+      [questionId]: Number(value),
     });
   };
 
@@ -53,12 +51,8 @@ function App() {
     try {
       const response = await fetch("http://localhost:8000/quiz-evaluate", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          answers: quizAnswers
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers: quizAnswers }),
       });
 
       const data = await response.json();
@@ -66,9 +60,7 @@ function App() {
       setRecommendedSector(data.recommended_sector);
       setSelectedSector(data.recommended_sector);
       setWeights(data.initial_weights || {});
-      setShowQuiz(false);
       setMode("manual");
-
     } catch (error) {
       console.error("Quiz error:", error);
       alert("Backend not reachable.");
@@ -76,20 +68,14 @@ function App() {
   };
 
   const evaluateCareer = async () => {
-    console.log("Evaluate clicked");
-    console.log("Selected sector:", selectedSector);
-    console.log("Weights:", weights);
-
     try {
       const response = await fetch("http://localhost:8000/evaluate", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sector: selectedSector,
-          weights: weights
-        })
+          weights: weights,
+        }),
       });
 
       const data = await response.json();
@@ -97,8 +83,6 @@ function App() {
       setRanking(data.ranking || []);
       setExplanation(data.explanation || "");
       setSensitivity(data.sensitivity || "");
-      setComparisonExplanation(data.comparison_explanation || "");
-
     } catch (error) {
       console.error("Evaluation error:", error);
       alert("Backend not reachable.");
@@ -111,145 +95,218 @@ function App() {
     { id: "q3", text: "I enjoy challenging and complex problems." },
     { id: "q4", text: "I value work-life balance highly." },
     { id: "q5", text: "I seek long-term growth opportunities." },
-    { id: "q6", text: "I enjoy intellectually stimulating work." }
+    { id: "q6", text: "I enjoy intellectually stimulating work." },
   ];
 
   return (
-    <div style={{ padding: "40px", fontFamily: "Arial" }}>
-      <h1>Career Decision Companion</h1>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#f5f7fa",
+        display: "flex",
+        justifyContent: "center",
+        paddingTop: "60px",
+      }}
+    >
+      <div
+        style={{
+          width: "750px",
+          backgroundColor: "#ffffff",
+          padding: "40px",
+          borderRadius: "12px",
+          boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+        }}
+      >
+        <h1 style={{ marginBottom: "10px" }}>
+          Career Decision Companion
+        </h1>
+        <p style={{ color: "#555", marginBottom: "30px" }}>
+          Structured Multi-Criteria Career Evaluation System
+        </p>
 
-      {/* Initial Entry Selection */}
-      {mode === "" && (
-        <div style={{ marginTop: "30px" }}>
-          <button onClick={() => setMode("quiz")} style={{ marginRight: "15px" }}>
-            Take Interest Quiz (Recommended)
-          </button>
+        {/* Mode Selection */}
+        {mode === "" && (
+          <div style={{ marginBottom: "30px" }}>
+            <button
+              style={primaryButton}
+              onClick={() => setMode("quiz")}
+            >
+              Take Interest Quiz (Recommended)
+            </button>
 
-          <button onClick={() => setMode("manual")}>
-            I Already Know My Sector
-          </button>
-        </div>
-      )}
+            <button
+              style={{ ...secondaryButton, marginLeft: "15px" }}
+              onClick={() => setMode("manual")}
+            >
+              I Already Know My Sector
+            </button>
+          </div>
+        )}
 
-      {/* Manual Sector Selection */}
-      {mode === "manual" && !selectedSector && (
-        <div style={{ marginTop: "30px" }}>
-          <h3>Select Sector</h3>
-          <select
-            value={selectedSector}
-            onChange={(e) => setSelectedSector(e.target.value)}
-          >
-            <option value="">-- Choose Sector --</option>
-            <option value="Technology">Technology</option>
-            <option value="Finance">Finance</option>
-            <option value="Government Services">Government Services</option>
-            <option value="Management & Business">Management & Business</option>
-          </select>
-        </div>
-      )}
+        {/* Quiz Section */}
+        {mode === "quiz" && (
+          <div>
+            <h3>Interest Quiz (Rate 1–5)</h3>
+            <p style={{ fontSize: "14px", color: "#666", marginBottom: "20px" }}>
+              1 = Low Agreement | 5 = High Agreement
+            </p>
 
-      {/* Quiz Mode */}
-      {mode === "quiz" && showQuiz && (
-        <div style={{ marginTop: "30px" }}>
-          <h3>Interest Quiz (Rate 1–5)</h3>
+            {quizQuestions.map((q) => (
+              <div key={q.id} style={{ marginBottom: "20px" }}>
+                <label>{q.text}</label>
+                <select
+                  style={selectStyle}
+                  value={quizAnswers[q.id] || ""}
+                  onChange={(e) => handleQuizChange(q.id, e.target.value)}
+                >
+                  <option value="">Select Rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+            ))}
 
-          {quizQuestions.map((q) => (
-            <div key={q.id} style={{ marginBottom: "20px" }}>
-              <label>{q.text}</label>
-              <select
-                onChange={(e) => handleQuizChange(q.id, e.target.value)}
-                defaultValue=""
+            <button style={primaryButton} onClick={submitQuiz}>
+              Submit Quiz
+            </button>
+          </div>
+        )}
+
+        {/* Manual Mode Sector Selection */}
+        {mode === "manual" && !selectedSector && (
+          <div style={{ marginBottom: "30px" }}>
+            <h3>Select Sector</h3>
+            <select
+              style={selectStyle}
+              value={selectedSector}
+              onChange={(e) => setSelectedSector(e.target.value)}
+            >
+              <option value="">-- Choose Sector --</option>
+              <option value="Technology">Technology</option>
+              <option value="Finance">Finance</option>
+              <option value="Government Services">
+                Government Services
+              </option>
+              <option value="Management & Business">
+                Management & Business
+              </option>
+            </select>
+          </div>
+        )}
+
+        {/* Sliders */}
+        {selectedSector && criteria.length > 0 && (
+          <>
+            <h3 style={{ marginTop: "30px" }}>
+              Fine-Tune Your Priorities (1–10)
+            </h3>
+
+            {criteria.map((criterion) => (
+              <div key={criterion} style={sliderContainer}>
+                <label>
+                  {criterion}: {weights[criterion]}
+                </label>
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  value={weights[criterion] || 5}
+                  onChange={(e) =>
+                    handleChange(criterion, e.target.value)
+                  }
+                  style={{ width: "100%" }}
+                />
+              </div>
+            ))}
+
+            <button style={primaryButton} onClick={evaluateCareer}>
+              Evaluate Careers
+            </button>
+          </>
+        )}
+
+        {/* Ranking */}
+        {ranking.length > 0 && (
+          <>
+            <h3 style={{ marginTop: "40px" }}>Career Ranking</h3>
+            {ranking.map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  padding: "12px",
+                  marginBottom: "10px",
+                  borderRadius: "8px",
+                  backgroundColor:
+                    index === 0 ? "#e0f2fe" : "#f3f4f6",
+                  fontWeight: index === 0 ? "600" : "400",
+                }}
               >
-                <option value="" disabled>Select</option>
-                <option value="1">1 - Strongly Disagree</option>
-                <option value="2">2</option>
-                <option value="3">3 - Neutral</option>
-                <option value="4">4</option>
-                <option value="5">5 - Strongly Agree</option>
-              </select>
-            </div>
-          ))}
+                {index + 1}. {item[0]}
+                <span style={{ float: "right" }}>
+                  {item[1].toFixed(2)}
+                </span>
+              </div>
+            ))}
+          </>
+        )}
 
-          <button onClick={submitQuiz}>Submit Quiz</button>
-        </div>
-      )}
+        {/* Explanation */}
+        {explanation && (
+          <>
+            <h3 style={{ marginTop: "30px" }}>Why This Result?</h3>
+            <p>{explanation}</p>
+          </>
+        )}
 
-      {/* Sector + Sliders */}
-      {selectedSector && (
-        <>
-          <h2 style={{ marginTop: "30px" }}>
-            {recommendedSector
-              ? `Recommended Sector: ${recommendedSector}`
-              : `Selected Sector: ${selectedSector}`}
-          </h2>
-
-          {Array.isArray(criteria) && criteria.length > 0 && (
-            <>
-              <h3 style={{ marginTop: "20px" }}>
-                Fine-Tune Your Priorities (1–10)
-              </h3>
-
-              {criteria.map((criterion) => (
-                <div key={criterion} style={{ marginBottom: "20px" }}>
-                  <label>
-                    {criterion}: {weights[criterion]}
-                  </label>
-                  <input
-                    type="range"
-                    min="1"
-                    max="10"
-                    value={weights[criterion] || 5}
-                    onChange={(e) =>
-                      handleChange(criterion, e.target.value)
-                    }
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              ))}
-
-              <button onClick={evaluateCareer}>
-                Evaluate Careers
-              </button>
-            </>
-          )}
-        </>
-      )}
-
-      {/* Ranking */}
-      {Array.isArray(ranking) && ranking.length > 0 && (
-        <>
-          <h3 style={{ marginTop: "40px" }}>Career Ranking</h3>
-          {ranking.map((item, index) => (
-            <div key={index}>
-              {index + 1}. {item[0]} — {item[1].toFixed(2)}
-            </div>
-          ))}
-        </>
-      )}
-
-      {/* Explanation */}
-      {explanation && (
-        <>
-          <h3 style={{ marginTop: "30px" }}>Why This Result?</h3>
-          <p>{explanation}</p>
-        </>
-      )}
-      {comparisonExplanation && (
-  <>
-    <h3 style={{ marginTop: "20px" }}>Why Not Others?</h3>
-    <p>{comparisonExplanation}</p>
-  </>
-)}
-
-      {/* Sensitivity */}
-      {sensitivity && (
-        <>
-          <h3 style={{ marginTop: "20px" }}>Model Stability</h3>
-          <p>{sensitivity}</p>
-        </>
-      )}
+        {sensitivity && (
+          <>
+            <h3 style={{ marginTop: "20px" }}>
+              Model Stability
+            </h3>
+            <p>{sensitivity}</p>
+          </>
+        )}
+      </div>
     </div>
   );
 }
+
+/* Styles */
+const primaryButton = {
+  padding: "10px 18px",
+  borderRadius: "8px",
+  border: "none",
+  backgroundColor: "#2563eb",
+  color: "white",
+  cursor: "pointer",
+  fontWeight: "500",
+};
+
+const secondaryButton = {
+  padding: "10px 18px",
+  borderRadius: "8px",
+  border: "none",
+  backgroundColor: "#e5e7eb",
+  color: "#111",
+  cursor: "pointer",
+  fontWeight: "500",
+};
+
+const selectStyle = {
+  width: "100%",
+  padding: "8px",
+  marginTop: "8px",
+  borderRadius: "6px",
+};
+
+const sliderContainer = {
+  marginBottom: "25px",
+  padding: "15px",
+  backgroundColor: "#f9fafb",
+  borderRadius: "8px",
+};
 
 export default App;
