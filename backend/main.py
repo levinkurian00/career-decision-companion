@@ -89,3 +89,7 @@ def quiz_evaluate(request: QuizRequest):
         "recommended_sector": recommended_sector,
         "initial_weights": raw_weights
     }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=10000)

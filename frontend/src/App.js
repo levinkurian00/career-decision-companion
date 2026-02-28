@@ -15,7 +15,7 @@ function App() {
   useEffect(() => {
     if (!selectedSector) return;
 
-    fetch(`http://localhost:8000/criteria/${selectedSector}`)
+    fetch(`https://career-decision-companion.onrender.com/criteria/${selectedSector}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data.criteria) return;
@@ -49,7 +49,7 @@ function App() {
 
   const submitQuiz = async () => {
     try {
-      const response = await fetch("http://localhost:8000/quiz-evaluate", {
+      const response = await fetch("https://career-decision-companion.onrender.com/quiz-evaluate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answers: quizAnswers }),
@@ -69,7 +69,7 @@ function App() {
 
   const evaluateCareer = async () => {
     try {
-      const response = await fetch("http://localhost:8000/evaluate", {
+      const response = await fetch("https://career-decision-companion.onrender.com/evaluate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
