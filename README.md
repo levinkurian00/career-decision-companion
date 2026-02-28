@@ -44,15 +44,14 @@ The Career Decision Companion System is designed as a modular, deterministic dec
 
 The system is logically divided into five components: the **Input Handler** collects user-defined importance values; the **Normalization Module** converts importance ratings into proportional weights; the **Scoring Engine** computes final weighted scores for each career; the **Ranking Module** sorts careers based on computed scores; and the **API Layer** exposes evaluation functionality via REST endpoint. This modular structure ensures clean separation of responsibilities and future scalability.
 
-  ## Architecture Diagram
-  ![Architecture Diagram](diagrams/ArchitectureDiagram.jpeg)
+<h3>Architecture Diagram</h3>
+<img src="diagrams/ArchitectureDiagram.jpeg" width="650">
 
+<h3>Data Flow Diagram Level 0</h3>
+<img src="diagrams/dfdLevel0.jpeg" width="650">
 
-  ## Data Flow Diagram level 0
-  ![dfd level 0](diagrams/dfdLevel0.jpeg)
-
-  ## Data Flow Diagram level 1
-  ![dfd level 1](diagrams/dfdLevel1.png)
+<h3>Data Flow Diagram Level 1</h3>
+<img src="diagrams/dfdLevel1.png" width="650">
 
   ## 2. Data Model
 
