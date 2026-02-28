@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
   useEffect(() => {
     if (!selectedSector) return;
 
-    fetch(`https://career-decision-companion.onrender.com/criteria/${selectedSector,weights}`)
+    fetch(`https://career-decision-companion.onrender.com/criteria/${selectedSector}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data.criteria) return;
