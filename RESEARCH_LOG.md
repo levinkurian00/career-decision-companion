@@ -131,7 +131,7 @@ All suggestions were tested and validated before final integration.
 AI acted as a development assistant. The deterministic logic, architecture separation, and all final design decisions were independently reviewed and refined before implementation.
 
 -------------------------------------------------------------------------------------
-### Day 6 – Explanation Engine
+## Day 6 – Explanation Engine
 ### Prompt 15
 how to generate explanation based on weighted scoring result
 
@@ -170,7 +170,7 @@ No scoring logic or content was copied. It was used only for conceptual structur
 
 .............................................................................................
 
-### Day 7 – Market Vacancy Integration
+## Day 7 – Market Vacancy Integration
 
 ### Prompt 17
 In the current sector and options there is a feedback missing that is the number of vacancies available for the particular job that has best score or weight. 
@@ -200,7 +200,7 @@ Assignment focuses on decision modeling, not live scraping, Keeps system archite
 
 .............................................................................................
 
-### Day 8 – Making Quiz Generic Across Sectors
+## Day 8 – Making Quiz Generic Across Sectors
 
 ### External reference 2 (The Princeton Review)
 I got the idea for the career quiz from looking at The Princeton Review's website =⇒ [https://www.princetonreview.com/quiz/career-quiz](https://www.princetonreview.com/quiz/career-quiz)
@@ -232,7 +232,7 @@ Why I asked:
 Wanted scalable solution instead of creating separate quiz for each sector.
 
 --------------------------------------------------------------------------------------
-### Day 9
+## Day 9
 ### External reference 3 (Google gemini)
 Top career paths for Indian engineers outside their core fields:
   Management consulting, product management, investment banking, civil services, and entrepreneurship are five of the top non-core career paths for Indian engineers. 
@@ -335,9 +335,9 @@ Enhancement increases:
 
 Core weighted scoring logic remains unchanged
 
-----------------------------------------------------------------------------------
+----------
 
-## Day 9 – UI cleanup and comparison explanation
+## Day 12 – UI cleanup and comparison explanation
 
 ### Prompt 27
 fix the dropdown option with more clean and minimal options and also the 'why 1st one over second career explanation' missing at the bottom
@@ -376,3 +376,61 @@ Decision:
 The goal was minimal and clean, not over-designed.
 
 --------
+
+## Day 13 – Architecture Diagrams & Deployment Setup
+
+### Prompt 29
+i am currently doing a web based project i need to send the code . but i want to send the link after hosting is there any free hosting websites and if i also send that link with github repo that will be good mark right..?
+
+Why I asked:
+Wanted to know if deployment improves evaluation impact.
+
+Decision:
+Chose to deploy both frontend and backend to demonstrate production-readiness.
+
+### Prompt 30
+is using vercel more easy for project like this..?
+
+Why I asked:
+Evaluated hosting alternatives.
+
+Decision:
+Selected Netlify (frontend) + Render (backend) combination for clearer separation between static hosting and API hosting.
+
+### Prompt 31
+if i am not using the netlify and render or logged in. then the examiner when clicking the link can see my project. how do this work
+
+Why I asked:
+To understand public hosting behavior.
+
+Understanding:
+Deployed applications remain publicly accessible even when the developer is logged out, as hosting platforms serve built artifacts independently.
+
+### Prompt 32
+what do you mean by System Design and architecture
+
+Why I asked:
+Wanted to ensure correct technical terminology usage.
+
+Decision:
+Separated conceptual system design explanation from visual architecture diagrams.
+
+
+---
+
+## AI Usage Summary
+
+AI was used for:
+
+- Clarifying deployment options
+- Improving documentation structure
+- Refining diagram placement
+- Reviewing architectural explanations
+
+AI was NOT used for:
+
+- Generating ranking logic
+- Producing decision outputs
+- Replacing deterministic reasoning
+
+All scoring logic and architectural decisions remain deterministic and independently reviewed.

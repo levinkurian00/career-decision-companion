@@ -242,4 +242,44 @@ This improved:
 
 The system now presents not only ranking, but structured justification between competing options.
 
--------------------------------------------------------------------------------------
+------------
+
+## Day 13 – Diagram Refinement & Deployment Planning
+
+**Focus:** Strengthening architectural clarity and production readiness.
+
+### Diagram Refinement
+
+- Redesigned Architecture Diagram for clearer separation between frontend, backend, and decision engine.
+- Simplified DFD Level 0 to show only external entity and system boundary.
+- Refined DFD Level 1 to highlight internal processing stages (Quiz → Sector Engine → Weight Generation → Scoring → Explanation).
+- Standardized diagram layout and placement inside README under System Design.
+
+The goal was to improve visual clarity and ensure alignment between documentation and implementation.
+
+---
+
+### Deployment Planning & Hosting Decisions
+
+- Evaluated hosting options (Vercel vs Netlify for frontend).
+- Chose **Netlify** for static frontend deployment.
+- Chose **Render** for dynamic FastAPI backend deployment.
+- Configured backend as a web service (not static) for proper API execution.
+- Verified public accessibility of deployed URLs.
+- Ensured CORS configuration for cross-origin communication.
+- Confirmed stateless backend design compatible with cloud hosting.
+
+This stage ensured that the project is not limited to local execution and demonstrates production-level deployment awareness.
+
+---
+
+### Documentation Refinement
+
+- Reorganized README structure for logical flow.
+- Added Tech Stack table.
+- Positioned diagrams under System Design.
+- Added Reflection section for design maturity.
+
+The system documentation now reflects both implementation detail and architectural thinking.
+
+----

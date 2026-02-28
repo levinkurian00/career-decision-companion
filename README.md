@@ -3,6 +3,15 @@
 > A structured, data-driven tool to help engineering graduates evaluate and choose careers — transparently, personally, and without guesswork.
 
 ---
+## Live Demo
+
+Frontend: https://career-decision-companion.netlify.app/  
+Backend API: https://career-decision-companion.onrender.com
+
+**Note**: "The backend may take 30-60 seconds to respond on first load as it runs on Render's(render.com) free tier.”
+
+The live deployment demonstrates production-ready API routing, CORS configuration, and stateless backend architecture.
+---
 
 ### Problem Understanding
 
@@ -11,14 +20,63 @@ Career decision-making is inherently multi-dimensional. Engineering graduates mu
 The **Career Decision Companion System** models career selection as a structured **multi-criteria decision problem**, enabling users to evaluate trade-offs transparently and quantitatively.
 
 ---
+## Tech Stack
 
-### Career Options
-
-The system evaluates five career paths — **Web Development**, **Data Science**, **AI/ML Engineering**, **Cybersecurity**, and **Cloud/DevOps** — each scored across six criteria: Salary Potential, Job Demand, Learning Curve Difficulty, Personal Interest, Work-Life Balance, and Future Growth. Every criterion is rated on a scale of **1–10**.
+| Layer | Technology | Purpose |
+|---|---|---|
+| Frontend | React.js | UI, slider inputs, quiz flow |
+| Backend | FastAPI (Python) | REST API, request handling |
+| Decision Engine | Python | Weighted scoring, normalization |
+| Hosting (Frontend) | Netlify | Static site deployment |
+| Hosting (Backend) | Render | Python API deployment |
+| Version Control | GitHub | Source code management |
 
 ---
 
-### Evaluation Criteria
+## System Design
+
+The Career Decision Companion System is designed as a modular, deterministic decision engine that evaluates career options using weighted multi-criteria decision analysis. The system prioritizes **transparency**, **flexibility**, **explainability**, and **extensibility**.
+
+  
+
+## 1. Architectural Overview
+
+The system is logically divided into five components: the **Input Handler** collects user-defined importance values; the **Normalization Module** converts importance ratings into proportional weights; the **Scoring Engine** computes final weighted scores for each career; the **Ranking Module** sorts careers based on computed scores; and the **API Layer** exposes evaluation functionality via REST endpoint. This modular structure ensures clean separation of responsibilities and future scalability.
+
+  ## Architecture Diagram
+    ![Architecture Diagram](diagrams/ArchitectureDiagram.jpeg)
+
+
+  ## Data Flow Diagram level 0
+    ![dfd level 0](diagrams/dfdLevel0.jpeg)
+
+  ## Data Flow Diagram level 1
+    ![dfd level 1](diagrams/dfdLevel1.png)
+
+  ## 2. Data Model
+
+The system internally stores structured data using dictionary-based models. Weight values are dynamically computed from user-provided importance ratings at runtime — the example above shows a representative normalized output. Career scores follow the same structure, with each career mapped to its scores across all six criteria.
+
+---
+
+## Career Options
+
+The system supports multiple career sectors, including **Technology**, **Finance**, **Government Services**, and **Management & Business**.
+
+Each sector contains multiple career paths. For example:
+
+- **Technology:** Web Development, Data Science, AI/ML Engineering, Cybersecurity, Cloud/DevOps  
+- **Finance:** Financial Analyst, Investment Banking, Risk Analyst  
+- **Government Services:** Civil Services, Public Administration, Regulatory Services  
+- **Management & Business:** Product Management, Business Analysis, Operations Management  
+
+Each career is evaluated across sector-specific criteria such as salary growth, job demand, market vacancy (India), work-life balance, learning curve, and long-term growth.
+
+All criteria are rated on a **1–10 scale**, and importance values are dynamically normalized based on user input.
+
+---
+
+## Evaluation Criteria
 
 | Criterion | What It Measures | Scale |
 |---|---|---|
@@ -97,6 +155,25 @@ weights = {
 
 ---
 
+## Deployment Details
+
+The system is deployed in a production-like environment using:
+
+- **Netlify** for frontend static hosting
+- **Render** for backend API hosting
+
+  ### Production Configuration
+
+  - The frontend communicates with the deployed backend API at `https://career-decision-companion.onrender.com`
+  - CORS is explicitly configured in FastAPI to allow secure cross-origin communication between frontend and backend
+  - The backend runs as a stateless service, ensuring scalability and deployment compatibility
+  - No sensitive credentials are exposed in the frontend
+  - The backend automatically restarts on code changes via GitHub integration with Render
+
+  This deployment demonstrates that the system is not limited to local execution and operates in a production-ready architecture with clean separation between frontend and backend concerns.
+
+---
+
 ### Assumptions
 
 - Criteria are treated as **independent dimensions** (no interaction effects modeled).
@@ -106,9 +183,10 @@ weights = {
 
 ---
 
-### System Overview
+## System Overview
 
-The system is implemented as a full-stack web application built with **React + Vite** on the frontend and **FastAPI (Python)** on the backend, with a custom Python decision engine handling all weighted scoring and ranking. To run it locally:
+The system is implemented as a full-stack web application built with 
+**React + Vite** on the frontend and **FastAPI (Python)** on the backend...
 
 ```bash
 # Backend (FastAPI)
@@ -125,23 +203,9 @@ The stack is divided into four components: **Frontend (React)** collects user pr
 
 ---
 
-### System Design
+## Development Log
 
-The Career Decision Companion System is designed as a modular, deterministic decision engine that evaluates career options using weighted multi-criteria decision analysis. The system prioritizes **transparency**, **flexibility**, **explainability**, and **extensibility**.
-
-#### 1. Architectural Overview
-
-The system is logically divided into five components: the **Input Handler** collects user-defined importance values; the **Normalization Module** converts importance ratings into proportional weights; the **Scoring Engine** computes final weighted scores for each career; the **Ranking Module** sorts careers based on computed scores; and the **API Layer** exposes evaluation functionality via REST endpoint. This modular structure ensures clean separation of responsibilities and future scalability.
-
-#### 2. Data Model
-
-The system internally stores structured data using dictionary-based models. Weight values are dynamically computed from user-provided importance ratings at runtime — the example above shows a representative normalized output. Career scores follow the same structure, with each career mapped to its scores across all six criteria.
-
----
-
-*Built to help engineers make smarter career decisions — one weighted score at a time.*
-
-### Explanation Engine(Day 6)
+## Day 6 - Explanation Engine
 
 * To improve transparency, the system includes a deterministic explanation module.
 * Instead of returning only ranked scores, the system:
@@ -157,7 +221,7 @@ This ensures:
 
 The explanation is mathematically derived from contribution values rather than generated using AI models.
 
-### Market Vacancy (India) --> Day 7
+## Day 7 - Market Vacancy (India) 
 
 To improve real-world applicability, the system incorporates a Market Vacancy (India) criterion within each sector.
 
@@ -169,9 +233,9 @@ This score:
 * Enhances realism by integrating supply-side dynamics.
 * Because the decision engine is generic, adding this criterion required no changes to scoring logic — demonstrating architectural scalability.
 
-==========================================================================================
+-----------
 
-### Sector-Aware Interest Quiz  (Day 8)
+## Day 8 - Sector-Aware Interest Quiz
 
 The initial quiz implementation mapped directly to technology-sector criteria.
 In Day 10, the design was refactored to introduce a preference abstraction layer.
@@ -192,8 +256,10 @@ This enhancement ensures:
 
 The quiz does not predict personality traits.
 It converts structured qualitative inputs into quantitative weight distributions.
----------------------------------------------------------------------------------------------
-### Two-Stage Decision Flow (Sector → Career) (Day 9)
+
+-------
+
+## Day 9 - Two-Stage Decision Flow (Sector → Career)
 
 On Day 8, the system was redesigned to introduce a structured two-stage decision process.
 Instead of asking users to manually select a sector, the system now:
@@ -222,9 +288,9 @@ This ensures:
 
 No AI model is used for inference. The system remains deterministic and transparent.
 
----------------------------------------------------------------------------------------------
+-------
 
-### Dual Entry Flow (Quiz + Manual Mode) --> Day 10
+## Day 10 - Dual Entry Flow (Quiz + Manual Mode) 
 
 The system now supports two entry paths:
 
@@ -246,9 +312,9 @@ The system now supports two entry paths:
   * Maintaining full transparency of the decision process.
   * Ensuring flexibility without introducing black-box inference.
 
-  ----------------------------------------------------------------------------------
+  ----
 
-### Comparative Explanation Module (Why Not Others?) -->Day 11
+## Day 11 - Comparative Explanation Module (Why Not Others?) 
 
 To improve analytical depth, the system now includes a comparative explanation module.
 
@@ -271,20 +337,20 @@ This enhancement improves:
 
 The comparison logic remains fully deterministic and does not rely on LLM-based generation.
 
-------------------------------------------------------------------------------------
+---
 
-## UI & Explainability Enhancements ==> Day 12
+## Day 12 - UI & Explainability Enhancements
 
 The system interface was refined to improve usability and visual clarity.
 
-### UI Improvements
+## UI Improvements
 - Introduced centered card-based layout.
 - Added visual hierarchy and spacing improvements.
 - Cleaned quiz rating scale to minimal 1–5 numeric format.
 - Highlighted top-ranked career visually.
 - Structured ranking display for better readability.
 
-### Comparative Explanation Layer
+## Comparative Explanation Layer
 
 In addition to overall explanation, the system now provides:
 
@@ -302,3 +368,9 @@ The system now operates with:
 4. Comparative reasoning layer
 
 This layered approach enhances interpretability while preserving deterministic logic.
+
+---
+
+## Reflection
+
+This project evolved from a simple weighted scoring prototype into a multi-layered decision-support system with sector abstraction, comparative reasoning, and production deployment. Throughout development, I prioritized deterministic logic over black-box AI to preserve transparency and traceability. Each iteration focused on reducing cognitive load while improving architectural separation and explainability. If extended further, the next improvements would include real-time market data integration and adaptive qualification filtering. The system demonstrates how structured modeling can bring clarity to ambiguous real-world decisions.
