@@ -11,6 +11,7 @@ Backend API: https://career-decision-companion.onrender.com
 **Note**: "The backend may take 30-60 seconds to respond on first load as it runs on Render's(render.com) free tier.”
 
 The live deployment demonstrates production-ready API routing, CORS configuration, and stateless backend architecture.
+
 ---
 
 ### Problem Understanding
