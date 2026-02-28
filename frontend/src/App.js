@@ -8,14 +8,14 @@ function App() {
   const [explanation, setExplanation] = useState("");
   const [sensitivity, setSensitivity] = useState("");
   const [quizAnswers, setQuizAnswers] = useState({});
-  const [recommendedSector, setRecommendedSector] = useState("");
+  //const [recommendedSector, setRecommendedSector] = useState("");
   const [mode, setMode] = useState(""); // "", "quiz", "manual"
 
   // Load criteria when sector changes
   useEffect(() => {
     if (!selectedSector) return;
 
-    fetch(`https://career-decision-companion.onrender.com/criteria/${selectedSector}`)
+    fetch(`https://career-decision-companion.onrender.com/criteria/${selectedSector,weights}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data.criteria) return;
@@ -57,7 +57,7 @@ function App() {
 
       const data = await response.json();
 
-      setRecommendedSector(data.recommended_sector);
+      //setRecommendedSector(data.recommended_sector);
       setSelectedSector(data.recommended_sector);
       setWeights(data.initial_weights || {});
       setMode("manual");
