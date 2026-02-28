@@ -1,6 +1,6 @@
 # 🎯 Career Decision Companion System
 
-> A structured, data-driven tool to help engineering graduates evaluate and choose careers — transparently, personally, and without guesswork.
+A structured, data-driven tool to help engineering graduates evaluate and choose careers — transparently, personally, and without guesswork.
 
 ---
 ## Live Demo
