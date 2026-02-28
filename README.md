@@ -1,6 +1,10 @@
 # 🎯 Career Decision Companion System
 
-A structured, data-driven tool to help engineering graduates evaluate and choose careers — transparently, personally, and without guesswork.
+A structured, deterministic, and multi-sector decision-support system designed to help  engineering graduates navigate complex career choices.
+
+The system models career selection as a multi-criteria decision problem, allowing users to evaluate trade-offs between salary growth, job demand, work-life balance, learning difficulty, market vacancy, and long-term growth. By combining sector-level alignment, weighted scoring, and comparative explanation, the platform transforms subjective preferences into transparent, reproducible career recommendations.
+
+The objective is not to predict the “perfect” career, but to provide a rational framework that reduces ambiguity and supports informed decision-making.
 
 ---
 ## Live Demo
@@ -368,6 +372,26 @@ The system now operates with:
 4. Comparative reasoning layer
 
 This layered approach enhances interpretability while preserving deterministic logic.
+
+---
+
+## Day 13 – Diagram Refinement & Deployment Finalization
+
+This stage focused on improving architectural clarity and production presentation.
+
+### Diagram Improvements
+- Refined Architecture Diagram for clearer separation between frontend, backend, and decision engine.
+- Simplified DFD Level 0 to highlight system boundary and external user interaction.
+- Clarified DFD Level 1 to better represent internal processing flow.
+- Ensured diagrams are properly embedded and rendered inside README.
+
+### Deployment Finalization
+- Verified Netlify (frontend) and Render (backend) configuration.
+- Confirmed public accessibility of deployed application.
+- Ensured CORS configuration for cross-origin communication.
+- Clarified environment-based API configuration for local vs production usage.
+
+This phase ensured that documentation, architecture visuals, and deployment environment align with the implemented system design.
 
 ---
 
