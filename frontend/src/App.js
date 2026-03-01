@@ -10,6 +10,7 @@ function App() {
   const [sensitivity, setSensitivity] = useState("");
   const [quizAnswers, setQuizAnswers] = useState({});
   const [mode, setMode] = useState("");
+  const [comparison, setComparison] = useState("");
 
   useEffect(() => {
     if (!selectedSector) return;
@@ -61,6 +62,7 @@ function App() {
       setRanking(data.ranking || []);
       setExplanation(data.explanation || "");
       setSensitivity(data.sensitivity || "");
+      setComparison(data.comparison_explanation || "");
     } catch (error) {
       console.error("Evaluation error:", error);
       alert("Backend not reachable.");
@@ -323,12 +325,20 @@ function App() {
         )}
 
         {/* ── EXPLANATION ── */}
-        {explanation && (
-          <>
-            <h2 style={{ ...sectionTitle, marginTop: "30px" }}>Why This Result?</h2>
-            <p style={{ color: "#64748b", lineHeight: "1.8", fontSize: "15px" }}>{explanation}</p>
-          </>
-        )}
+{explanation && (
+  <>
+    <h2 style={{ ...sectionTitle, marginTop: "30px" }}>Why This Result?</h2>
+    <p style={{ color: "#64748b", lineHeight: "1.8", fontSize: "15px" }}>{explanation}</p>
+  </>
+)}
+
+{/* ── COMPARISON ── */}
+{comparison && (
+  <>
+    <h2 style={{ ...sectionTitle, marginTop: "30px" }}>Why Not the Second Option?</h2>
+    <p style={{ color: "#64748b", lineHeight: "1.8", fontSize: "15px" }}>{comparison}</p>
+  </>
+)}
 
         {sensitivity && (
           <>
