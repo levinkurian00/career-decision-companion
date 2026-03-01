@@ -186,42 +186,37 @@ def generate_weights_from_quiz(sector_name, quiz_answers):
     return weights
 
 def determine_sector_from_quiz(quiz_answers):
-    """
-    Determine best-fit sector based on abstract preference signals.
-    """
 
-    sector_scores = {
-        "Technology": 0,
-        "Finance": 0,
-        "Government Services": 0,
-        "Management & Business": 0
-    }
+    tech_score = 0
+    finance_score = 0
 
     for q, value in quiz_answers.items():
 
-        if q == "q1":  # Financial Growth
-            sector_scores["Technology"] += value
-            sector_scores["Finance"] += value
-            sector_scores["Management & Business"] += value
+        # TECH SIGNALS
+        if q in ["q3", "q6"]:
+            tech_score += value * 2
 
-        elif q == "q2":  # Market Opportunity
-            sector_scores["Technology"] += value
-            sector_scores["Finance"] += value
+        # FINANCE SIGNALS
+        elif q in ["q7", "q8", "q9", "q10"]:
+            finance_score += value * 2
 
-        elif q == "q3":  # Challenge
-            sector_scores["Technology"] += value
-            sector_scores["Management & Business"] += value
+        # NEUTRAL QUESTIONS
+        elif q in ["q1", "q2", "q5"]:
+            tech_score += value
+            finance_score += value
 
-        elif q == "q4":  # Work-life balance
-            sector_scores["Government Services"] += value
-            sector_scores["Finance"] += value
+        # WORK LIFE (slightly finance leaning)
+        elif q == "q4":
+            finance_score += value * 1.2
 
-        elif q == "q5":  # Long-term growth
-            sector_scores["Technology"] += value
-            sector_scores["Management & Business"] += value
+    print("Tech:", tech_score)
+    print("Finance:", finance_score)
 
-        elif q == "q6":  # Intellectual stimulation
-            sector_scores["Technology"] += value
-            sector_scores["Finance"] += value
+    print("Quiz Answers:", quiz_answers)
+    print("Tech Score:", tech_score)
+    print("Finance Score:", finance_score)
 
-    return max(sector_scores, key=sector_scores.get)
+    if finance_score > tech_score:
+        return "Finance"
+    else:
+        return "Technology"

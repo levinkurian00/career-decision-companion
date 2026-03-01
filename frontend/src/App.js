@@ -74,6 +74,10 @@ function App() {
     { id: "q4", text: "I value work-life balance highly." },
     { id: "q5", text: "I seek long-term growth opportunities." },
     { id: "q6", text: "I enjoy intellectually stimulating work." },
+    { id: "q7", text: "I enjoy working with financial data and market trends." },
+    { id: "q8", text: "I prefer stable and structured industries." },
+    { id: "q9", text: "I am interested in investment, banking, or financial analysis." },
+    { id: "q10", text: "I am comfortable making decisions under financial risk." }
   ];
 
   // Word-based options mapped to numeric values
