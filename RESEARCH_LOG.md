@@ -130,7 +130,8 @@ All suggestions were tested and validated before final integration.
 
 AI acted as a development assistant. The deterministic logic, architecture separation, and all final design decisions were independently reviewed and refined before implementation.
 
--------------------------------------------------------------------------------------
+---
+
 ## Day 6 – Explanation Engine
 ### Prompt 15
 how to generate explanation based on weighted scoring result
@@ -168,7 +169,7 @@ No scoring logic or content was copied. It was used only for conceptual structur
 
   Chose deterministic explanation instead.
 
-.............................................................................................
+---
 
 ## Day 7 – Market Vacancy Integration
 
@@ -198,12 +199,34 @@ Reason:
 
 Assignment focuses on decision modeling, not live scraping, Keeps system architecture clean, Improves realism without overcomplicating backend
 
-.............................................................................................
+### Google Searches 
+
+| Query | Purpose |
+|---|---|
+| "job vacancy trends India engineering 2024" | To understand current hiring demand across sectors |
+| "most in demand engineering jobs India" | To validate which sectors have high market availability |
+| "job market India technology vs finance vs government" | To compare relative vacancy levels across sectors |
+
+These searches informed the structured Market Vacancy scores assigned to each sector.
+No data was directly copied — scores were approximated based on general trends observed.
+
+---
 
 ## Day 8 – Making Quiz Generic Across Sectors
 
 ### External reference 2 (The Princeton Review)
 I got the idea for the career quiz from looking at The Princeton Review's website =⇒ [https://www.princetonreview.com/quiz/career-quiz](https://www.princetonreview.com/quiz/career-quiz)
+
+### Google Searches – Day 8
+
+| Query | Purpose |
+|---|---|
+| "career interest quiz examples" | To understand how existing quizzes structure preference questions |
+| "how to convert quiz answers to weights programmatically" | To find approaches for mapping qualitative answers to numeric values |
+| "career aptitude quiz questions for engineering students" | To understand what question types are relevant for engineering graduates |
+
+These searches were used for conceptual reference only.
+No quiz content or question wording was copied from any source.
 
 ### Prompt 19
 is it possible to implement a simple quiz to identify the interest of the person. is this a good implementation for the project
@@ -231,14 +254,27 @@ how to make quiz work for all sectors without rewriting everything
 Why I asked:
 Wanted scalable solution instead of creating separate quiz for each sector.
 
---------------------------------------------------------------------------------------
-## Day 9
+--- 
+
+## Day 9 - Two-Stage Decision Architecture
 ### External reference 3 (Google gemini)
 Top career paths for Indian engineers outside their core fields:
   Management consulting, product management, investment banking, civil services, and entrepreneurship are five of the top non-core career paths for Indian engineers. 
 
 ### External reference 4 
  I have referenced Shiksha.com ([https://www.shiksha.com/engineering/articles/alternative-career-paths-after-btech-blogId-190814](https://www.shiksha.com/engineering/articles/alternative-career-paths-after-btech-blogId-190814)) for the Alternative Career Paths Engineers took After BTech to implement in the quiz.
+
+### Google Searches – Day 9
+
+| Query | Purpose |
+|---|---|
+| "alternative careers for engineering graduates India" | To identify non-core career sectors relevant to BTech graduates |
+| "career paths after BTech non-technical" | To validate sectors like Management and Government Services as relevant options |
+| "management consulting vs finance for engineers India" | To understand sector distinctions for quiz-to-sector mapping logic |
+
+These searches helped validate the four sectors chosen:
+Technology, Finance, Government Services, and Management & Business.
+Content was used for domain validation only — not copied into the system
 
  ### Prompt 21
  this needs some cleanup . in the mainpage the user don't directly enters the quiz section  and the quiz must be about all sectors (don't need sector option dropdown anymore). the quiz result must be a sector like finance,tech,etc. then only show the slider options (ie hide the slider) then the slider used to find the best job in that sector . for eg: if tech was the sector scored the best score in quiz the next option is the slider then like the old way changing the slider to get desired output like web development
@@ -266,7 +302,7 @@ This ensures:
 
 The model now operates in layered decision stages.
 
---------------------------------------------------------------------------------------------
+---
 
 ### Day 10 
 ### Prompt 23
