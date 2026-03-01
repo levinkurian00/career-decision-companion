@@ -17,6 +17,22 @@ Backend API: https://career-decision-companion.onrender.com
 The live deployment demonstrates production-ready API routing, CORS configuration, and stateless backend architecture.
 
 ---
+## Screenshots
+
+### Landing Page
+![Landing Page](diagrams/landingPage.png)
+
+### Quiz Section
+![Quiz Section](diagrams/quizSection.png)
+
+### Slider Section
+![Sliders](diagrams/sliderSection.png)
+
+### Results
+![Result](diagrams/resultSection.png)
+
+---
+
 
 ### Problem Understanding
 
@@ -394,6 +410,8 @@ This stage focused on improving architectural clarity and production presentatio
 This phase ensured that documentation, architecture visuals, and deployment environment align with the implemented system design.
 
 ---
+
+
 
 ## Reflection
 
