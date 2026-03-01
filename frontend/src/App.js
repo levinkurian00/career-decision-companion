@@ -67,24 +67,35 @@ function App() {
     }
   };
 
+  // Reset everything and go back to landing
+  const goHome = () => {
+    setMode("");
+    setSelectedSector("");
+    setCriteria([]);
+    setWeights({});
+    setRanking([]);
+    setExplanation("");
+    setSensitivity("");
+    setQuizAnswers({});
+  };
+
   const quizQuestions = [
-    { id: "q1", text: "I prioritize financial growth." },
-    { id: "q2", text: "I prefer careers with strong job availability." },
-    { id: "q3", text: "I enjoy challenging and complex problems." },
-    { id: "q4", text: "I value work-life balance highly." },
-    { id: "q5", text: "I seek long-term growth opportunities." },
-    { id: "q6", text: "I enjoy intellectually stimulating work." },
-    { id: "q7", text: "I enjoy working with financial data and market trends." },
-    { id: "q8", text: "I prefer stable and structured industries." },
-    { id: "q9", text: "I am interested in investment, banking, or financial analysis." },
-    { id: "q10", text: "I am comfortable making decisions under financial risk." }
+    { id: "q1",  text: "I prioritize financial growth." },
+    { id: "q2",  text: "I prefer careers with strong job availability." },
+    { id: "q3",  text: "I enjoy challenging and complex problems." },
+    { id: "q4",  text: "I value work-life balance highly." },
+    { id: "q5",  text: "I seek long-term growth opportunities." },
+    { id: "q6",  text: "I enjoy intellectually stimulating work." },
+    { id: "q7",  text: "I enjoy working with financial data and market trends." },
+    { id: "q8",  text: "I prefer stable and structured industries." },
+    { id: "q9",  text: "I am interested in investment, banking, or financial analysis." },
+    { id: "q10", text: "I am comfortable making decisions under financial risk." },
   ];
 
-  // Word-based options mapped to numeric values
   const ratingOptions = [
-    { label: "Disagree",  value: 1 },
-    { label: "Neutral",   value: 3 },
-    { label: "Agree",     value: 5 },
+    { label: "Disagree", value: 1 },
+    { label: "Neutral",  value: 3 },
+    { label: "Agree",    value: 5 },
   ];
 
   return (
@@ -141,6 +152,16 @@ function App() {
         {/* ── QUIZ SECTION ── */}
         {mode === "quiz" && (
           <div>
+            {/* Back Button */}
+            <button
+              style={backButton}
+              onMouseEnter={e => e.currentTarget.style.color = "#38bdf8"}
+              onMouseLeave={e => e.currentTarget.style.color = "#475569"}
+              onClick={goHome}
+            >
+              ← Back
+            </button>
+
             <h2 style={sectionTitle}>Interest Quiz</h2>
             <p style={{ fontSize: "14px", color: "#64748b", marginBottom: "28px" }}>
               For each statement, select how much you agree
@@ -187,6 +208,16 @@ function App() {
         {/* ── MANUAL SECTOR SELECTION ── */}
         {mode === "manual" && !selectedSector && (
           <div style={{ marginBottom: "30px" }}>
+            {/* Back Button */}
+            <button
+              style={backButton}
+              onMouseEnter={e => e.currentTarget.style.color = "#38bdf8"}
+              onMouseLeave={e => e.currentTarget.style.color = "#475569"}
+              onClick={goHome}
+            >
+              ← Back
+            </button>
+
             <h2 style={sectionTitle}>Select Your Sector</h2>
             <select
               style={selectStyle}
@@ -205,6 +236,16 @@ function App() {
         {/* ── SLIDERS ── */}
         {selectedSector && criteria.length > 0 && (
           <>
+            {/* Back Button */}
+            <button
+              style={backButton}
+              onMouseEnter={e => e.currentTarget.style.color = "#38bdf8"}
+              onMouseLeave={e => e.currentTarget.style.color = "#475569"}
+              onClick={goHome}
+            >
+              ← Back
+            </button>
+
             <h2 style={sectionTitle}>Fine-Tune Your Priorities</h2>
             <p style={{ fontSize: "14px", color: "#64748b", marginBottom: "20px" }}>
               Adjust each criterion from 1 (Low) to 10 (High)
@@ -268,6 +309,16 @@ function App() {
                 </span>
               </div>
             ))}
+
+            {/* Start Over button on results page */}
+            <button
+              style={{ ...backButton, marginTop: "24px" }}
+              onMouseEnter={e => e.currentTarget.style.color = "#38bdf8"}
+              onMouseLeave={e => e.currentTarget.style.color = "#475569"}
+              onClick={goHome}
+            >
+              ← Start Over
+            </button>
           </>
         )}
 
@@ -480,6 +531,19 @@ const sliderInput = {
   width: "100%",
   accentColor: "#38bdf8",
   cursor: "pointer",
+};
+
+const backButton = {
+  background: "none",
+  border: "none",
+  color: "#475569",
+  cursor: "pointer",
+  fontSize: "14px",
+  fontWeight: "600",
+  padding: "0 0 24px 0",
+  display: "block",
+  transition: "color 0.2s",
+  letterSpacing: "0.03em",
 };
 
 export default App;
