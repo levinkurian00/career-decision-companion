@@ -33,50 +33,34 @@ The system moved from conceptual framing to a formalized mathematical model.
 
 ---
 
-Day 3 – Converting to Backend API
+## Day 3 – Converting to Backend API
 
-Focus: Transition from CLI logic to REST-based architecture.
+**Focus:** Transition from CLI logic to REST-based architecture.
 
-Converted Python scoring logic into FastAPI backend.
-
-Designed structured request model using Pydantic.
-
-Created /evaluate endpoint to process sector + weights.
-
-Implemented error handling for invalid input.
-
-Enabled CORS middleware for frontend communication.
-
-Tested endpoints using Swagger UI.
+- Converted Python scoring logic into FastAPI backend.
+- Designed structured request model using Pydantic.
+- Created `/evaluate` endpoint to process sector + weights.
+- Implemented error handling for invalid input.
+- Enabled CORS middleware for frontend communication.
+- Tested endpoints using Swagger UI.
 
 This stage shifted the system from a local script to an API-driven architecture with clear separation between presentation and computation.
 
-Day 4 – Multi-Sector Extension
+---
 
-Focus: Improving extensibility and scalability.
+## Day 4 – Multi-Sector Extension
 
-Introduced domain_config.py to separate domain data from logic.
+**Focus:** Improving extensibility and scalability.
 
-Structured sector-based configuration:
-
-Sector name
-
-Criteria list
-
-Career performance profiles
-
-Refactored decision engine to accept sector dynamically.
-
-Added new endpoints:
-
-/sectors
-
-/criteria/{sector}
-
-Ensured scoring engine remained domain-independent.
+- Introduced `domain_config.py` to separate domain data from logic.
+- Structured sector-based configuration: sector name, criteria list, career performance profiles.
+- Refactored decision engine to accept sector dynamically.
+- Added new endpoints: `/sectors` and `/criteria/{sector}`
+- Ensured scoring engine remained domain-independent.
 
 This stage transformed the system from single-sector (Technology only) to a scalable, configuration-driven decision framework.
 
+----
 ## Day 5 – Frontend Integration
 
 **Focus:** Usability and interaction.
@@ -103,7 +87,7 @@ Throughout all iterations, the decision engine remained **deterministic**, **exp
 
 ------------------------------------------------------------------------------------------
 
-### Day 6 – Explanation Engine Implementation
+## Day 6 – Explanation Engine Implementation
 
 Focus: Improving interpretability and decision transparency.
 
@@ -121,7 +105,7 @@ This stage enhanced system transparency by making ranking decisions traceable to
 
 ----------------------------------------------------------------------------------------
 
-### Day 7 – Market Vacancy Integration
+## Day 7 – Market Vacancy Integration
 
 Focus: Enhancing real-world decision relevance.
 
@@ -134,9 +118,9 @@ Introduced a new evaluation criterion: Market Vacancy (India).
 
 This stage strengthened the system by incorporating supply-side market dynamics into the decision framework while maintaining determinism and transparency.
 
-===========================================================================================
+---
 
-### Day 8 – Sector-Aware Quiz Refactoring
+## Day 8 – Sector-Aware Quiz Refactoring
 
 Focus: Improving scalability and architectural maturity.
 
@@ -149,9 +133,10 @@ Focus: Improving scalability and architectural maturity.
 This stage strengthened the system by introducing a preference abstraction layer, allowing the quiz to remain generic while dynamically adapting to sector-specific evaluation criteria.
 
 The decision engine remained unchanged, demonstrating proper separation of concerns.
----------------------------------------------------------------------------------------------
 
-### Day 9: Optimized Decision Architecture
+----
+
+## Day 9 - Optimized Decision Architecture
 
 Focus: Streamlining the user journey via structured inference.
 * Redesigned Flow: Replaced manual sector selection with a two-stage logic:
@@ -165,9 +150,9 @@ Preference Elicitation → Sector Recommendation → Weight Initialization → C
 
 Impact: Enhanced usability and automated onboarding while preserving the deterministic nature and transparency of the core engine.
 
----------------------------------------------------------------------------------------------
+---
 
-### Day 10 – Stability & State Management Fixes
+## Day 10 – Stability & State Management Fixes
 
 Focus: Fixing evaluation failure in manual mode and improving frontend robustness.
 
@@ -187,9 +172,9 @@ The application now:
 
 Today focused on robustness and correctness rather than feature expansion.
 
----------------------------------------------------------------------------------------------
+----
 
-### Day 11 – Comparative Explanation Engine
+## Day 11 – Comparative Explanation Engine
 
 Focus: Enhancing decision transparency beyond top-result explanation.
 
@@ -209,7 +194,7 @@ Outcome:
 
 This improves interpretability without increasing architectural complexity.
 
-------------------------------------------------------------------------------------------
+----
 
 ## Day 12 – UI Refinement & Comparative Reasoning
 
@@ -242,7 +227,7 @@ This improved:
 
 The system now presents not only ranking, but structured justification between competing options.
 
-------------
+----
 
 ## Day 13 – Diagram Refinement & Deployment Planning
 
@@ -283,3 +268,69 @@ This stage ensured that the project is not limited to local execution and demons
 The system documentation now reflects both implementation detail and architectural thinking.
 
 ----
+
+## Key Decisions & Alternatives Considered
+
+---
+
+| Decision | Alternative Considered | Why Rejected |
+|---|---|---|
+| FastAPI | Flask | FastAPI has built-in Pydantic validation |
+| Deterministic scoring | LLM-based ranking | Non-deterministic, reduces traceability |
+| Netlify | Vercel | Simpler drag-drop for static frontend |
+| Static vacancy scores | Live API scraping | Adds external dependency, breaks determinism |
+| React | Plain HTML/CSS | Better state management for dynamic sliders |
+
+---
+
+### Why FastAPI over Flask?
+
+Flask was the initial consideration due to its simplicity.
+However, FastAPI was chosen because:
+- Built-in request validation using Pydantic models
+- Automatic API documentation via Swagger UI at `/docs`
+- Better performance for API-only backends
+- Cleaner syntax for defining typed request/response models
+
+Flask would have required manual validation and separate documentation setup.
+
+---
+
+### Why React over Plain HTML/CSS?
+
+Plain HTML with JavaScript was considered for the frontend.
+React was chosen because:
+- The criteria sliders are dynamic — they change based on which sector is selected
+- Managing changing UI state (sector → criteria → weights → results) is complex in plain JS
+- React's `useState` and `useEffect` made dynamic rendering clean and maintainable
+- Plain HTML would have required manual DOM manipulation for every state change
+
+For a static page React would be overkill — but this project needed dynamic state management.
+
+---
+
+### Why Netlify over Vercel?
+
+Both Netlify and Vercel support React deployment.
+Netlify was chosen because:
+- Simpler configuration for first-time deployment
+- Drag-and-drop option available as fallback
+- Clear separation between frontend (Netlify) and backend (Render)
+- Vercel is more optimized for Next.js projects specifically
+
+Both would have worked — Netlify was the more beginner-accessible option.
+
+---
+
+### Why Weighted Scoring over Decision Trees or Ranking Algorithms?
+
+Decision trees and ML-based ranking were considered.
+Weighted multi-criteria scoring was chosen because:
+- **Transparency** — every score is fully traceable to user input
+- **Determinism** — same input always produces same output
+- **No training data required** — ML models need labeled career outcome data which doesn't exist cleanly
+- **Explainability** — the explanation engine can directly reference weights and contributions
+- Decision trees introduce branching complexity that reduces interpretability
+- ML ranking would behave as a black box — contradicting the core design goal of transparency
+
+The system is built for *guided decision support*, not *prediction* — weighted scoring fits that goal better than any ML approach.
