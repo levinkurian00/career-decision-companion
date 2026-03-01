@@ -23,13 +23,13 @@ The live deployment demonstrates production-ready API routing, CORS configuratio
 ![Landing Page](diagrams/landingPage.png)
 
 ### Quiz Section
-![Quiz Section](diagrams/quizSection.png)
+![Quiz section](diagrams/quizSection.png)
 
 ### Slider Section
-![Sliders](diagrams/sliderSection.png)
+![Slider section](diagrams/sliderSection.png)
 
 ### Results
-![Result](diagrams/resultSection.png)
+![Result (output) section](diagrams/resultSection.png)
 
 ---
 
